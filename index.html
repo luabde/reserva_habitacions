@@ -5,8 +5,7 @@
     <meta charset="UTF-8">
     <title>Hotel</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="js/script.js"></script>
-    <!-- Google Font -->
+
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
     <style>
@@ -22,15 +21,21 @@
             color: #222;
         }
 
-        /* HEADER */
+        /* ================= HEADER ================= */
         header {
             height: 80px;
             padding: 0 60px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            position: relative;
-            z-index: 10;
+
+            position: sticky;
+            top: 0;
+            z-index: 100;
+
+            background: #f4f6f8;
+            backdrop-filter: blur(6px);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
         }
 
         .logo {
@@ -49,11 +54,12 @@
             color: #0077ff;
         }
 
-        /* HERO */
+        /* ================= HERO ================= */
         .hero {
             margin: 0 20px 20px;
             border-radius: 20px;
             min-height: calc(100vh - 100px);
+
             background:
                 linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25)),
                 url("img/hero.png") center/cover no-repeat;
@@ -63,14 +69,12 @@
             flex-direction: column;
             justify-content: center;
             color: white;
-            position: relative;
         }
 
         .hero h1 {
             font-size: 56px;
             font-weight: 700;
             max-width: 600px;
-            line-height: 1.2;
         }
 
         .hero p {
@@ -80,7 +84,7 @@
             max-width: 500px;
         }
 
-        /* SEARCH CARD */
+        /* ================= SEARCH CARD ================= */
         .search-card {
             background: white;
             border-radius: 16px;
@@ -90,12 +94,8 @@
             display: grid;
             grid-template-columns: 2fr 1fr 1fr 1fr auto;
             column-gap: 20px;
-            /* solo separación horizontal */
-
-
 
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-
             position: relative;
             top: 40px;
         }
@@ -120,18 +120,84 @@
         }
 
         .search-btn {
-            padding: 14px 26px;
+            padding: 14px 50px;
             border-radius: 12px;
             border: none;
             background: #111;
             color: white;
             font-weight: 600;
             cursor: pointer;
-            height: 100%;
         }
 
-        .search-btn:hover {
-            background: #333;
+        /* ================= SECTIONS ================= */
+        section.content {
+            padding: 100px 60px;
+        }
+
+        section.content h2 {
+            font-size: 36px;
+            margin-bottom: 40px;
+        }
+
+        /* HABITACIONES */
+        .rooms {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .room-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .room-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .room-card div {
+            padding: 20px;
+        }
+
+        /* SERVICIOS */
+        .services {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+        }
+
+        .service {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        /* VALORACIONES */
+        .reviews {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .review {
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        /* FOOTER */
+        footer {
+            background: #111;
+            color: white;
+            padding: 60px;
+            text-align: center;
         }
 
         /* RESPONSIVE */
@@ -144,13 +210,14 @@
                 padding: 40px 20px;
             }
 
-            .hero h1 {
-                font-size: 38px;
-            }
-
             .search-card {
                 grid-template-columns: 1fr;
-                top: 20px;
+            }
+
+            .rooms,
+            .services,
+            .reviews {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -169,52 +236,76 @@
     </header>
 
     <section class="hero">
-        <h1>Bienvenido a "falta nombre"</h1>
+        <h1>Bienvenido a nuestro hotel</h1>
         <p>Reserva tus habitaciones con un solo clic</p>
 
         <div class="search-card">
             <div class="field">
-                <label>Landmark</label>
-                <input type="text" placeholder="Landmark">
+                <label>Destino</label>
+                <input type="text">
             </div>
 
             <div class="field">
-                <label>Check in / out</label>
-                <div class="input-wrapper">
-                    <input type="text">
-                    <svg onclick="mostrarCalendari()" xmlns="http://www.w3.org/2000/svg" height="24px"
-                        viewBox="0 -960 960 960" width="24px" fill="#000000">
-                        <path
-                            d="M200-80q-33 0-56.5-23.5T120-160v-560q0-33 23.5-56.5T200-800h40v-80h80v80h320v-80h80v80h40q33 0 56.5 23.5T840-720v560q0 33-23.5 56.5T760-80H200Zm0-80h560v-400H200v400Zm0-480h560v-80H200v80Zm0 0v-80 80Zm280 240q-17 0-28.5-11.5T440-440q0-17 11.5-28.5T480-480q17 0 28.5 11.5T520-440q0 17-11.5 28.5T480-400Zm-160 0q-17 0-28.5-11.5T280-440q0-17 11.5-28.5T320-480q17 0 28.5 11.5T360-440q0 17-11.5 28.5T320-400Zm320 0q-17 0-28.5-11.5T600-440q0-17 11.5-28.5T640-480q17 0 28.5 11.5T680-440q0 17-11.5 28.5T640-400ZM480-240q-17 0-28.5-11.5T440-280q0-17 11.5-28.5T480-320q17 0 28.5 11.5T520-280q0 17-11.5 28.5T480-240Zm-160 0q-17 0-28.5-11.5T280-280q0-17 11.5-28.5T320-320q17 0 28.5 11.5T360-280q0 17-11.5 28.5T320-240Zm320 0q-17 0-28.5-11.5T600-280q0-17 11.5-28.5T640-320q17 0 28.5 11.5T680-280q0 17-11.5 28.5T640-240Z" />
-                    </svg>
-                </div>
-            </div>
-
-            <div id="calendari" style="display: none;">
-
+                <label>Check in</label>
+                <input type="date">
             </div>
 
             <div class="field">
-                <label>Guests and rooms</label>
+                <label>Check out</label>
+                <input type="date">
+            </div>
+
+            <div class="field">
+                <label>Personas</label>
                 <select>
-                    <option>2 Guests · 1 Room</option>
-                    <option>1 Guest · 1 Room</option>
-                    <option>3 Guests · 2 Rooms</option>
+                    <option>2 Personas · 1 Habitación</option>
                 </select>
             </div>
 
-
-            <button class="search-btn" onclick="searchHotel()">
-                Buscar Habitaciones
-            </button>
+            <button class="search-btn">Buscar</button>
         </div>
     </section>
 
-    <script>
-        function searchHotel() {
-            alert("Searching hotels...");
-        }
-    </script>
+    <section class="content">
+        <h2>Habitaciones</h2>
+        <div class="rooms">
+            <div class="room-card">
+                <img src="https://picsum.photos/400/300?1">
+                <div>Habitación Deluxe</div>
+            </div>
+            <div class="room-card">
+                <img src="https://picsum.photos/400/300?2">
+                <div>Habitación Familiar</div>
+            </div>
+            <div class="room-card">
+                <img src="https://picsum.photos/400/300?3">
+                <div>Suite Premium</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content">
+        <h2>Servicios</h2>
+        <div class="services">
+            <div class="service">Wifi gratis</div>
+            <div class="service">Piscina</div>
+            <div class="service">Spa</div>
+            <div class="service">Restaurante</div>
+        </div>
+    </section>
+
+    <section class="content">
+        <h2>Valoraciones</h2>
+        <div class="reviews">
+            <div class="review">⭐⭐⭐⭐⭐ Excelente hotel</div>
+            <div class="review">⭐⭐⭐⭐ Muy cómodo</div>
+            <div class="review">⭐⭐⭐⭐⭐ Repetiremos</div>
+        </div>
+    </section>
+
+    <footer>
+        © 2026 Hotel · Todos los derechos reservados
+    </footer>
 
 </body>
 
