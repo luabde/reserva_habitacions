@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Trivago UI Clone</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background: #f4f6f8;
+            color: #222;
+        }
+
+        /* NAVBAR */
+        header {
+            background: white;
+            padding: 20px 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 24px;
+        }
+
+        nav a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+        }
+
+        nav a:hover {
+            color: #0077ff;
+        }
+
+        /* HERO */
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.2),
+                    rgba(0, 0, 0, 0.2)),
+                url("https://images.unsplash.com/photo-1505693416388-ac5ce068fe85") center/cover no-repeat;
+
+            min-height: 80vh;
+            padding: 80px 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            color: white;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-size: 56px;
+            font-weight: 700;
+            max-width: 600px;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            margin-top: 20px;
+            font-size: 18px;
+            opacity: 0.9;
+        }
+
+        /* SEARCH CARD */
+        .search-card {
+            background: white;
+            border-radius: 14px;
+            padding: 25px;
+            margin-top: 50px;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr auto;
+            gap: 20px;
+            align-items: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .field label {
+            font-size: 12px;
+            color: #777;
+            margin-bottom: 6px;
+        }
+
+        .field input,
+        .field select {
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            font-size: 14px;
+        }
+
+        .search-btn {
+            padding: 14px 24px;
+            border-radius: 10px;
+            border: none;
+            background: #111;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .search-btn:hover {
+            background: #333;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 900px) {
+            header {
+                padding: 20px;
+            }
+
+            .hero {
+                padding: 60px 20px;
+            }
+
+            .hero h1 {
+                font-size: 38px;
+            }
+
+            .search-card {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="logo">trivago</div>
+        <nav>
+            <a href="#">Home</a>
+            <a href="#">Services</a>
+            <a href="#">About</a>
+            <a href="#">Contact</a>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <h1>Book Now Save<br>Up to 40%</h1>
+        <p>We compare hotel prices from hundreds of sites</p>
+
+        <div class="search-card">
+            <div class="field">
+                <label>Landmark</label>
+                <input type="text" placeholder="Landmark">
+            </div>
+
+            <div class="field">
+                <label>Check in / out</label>
+                <input type="date">
+            </div>
+
+            <div class="field">
+                <label>Guests and rooms</label>
+                <select>
+                    <option>2 Guests · 1 Room</option>
+                    <option>1 Guest · 1 Room</option>
+                    <option>3 Guests · 2 Rooms</option>
+                </select>
+            </div>
+
+            <button class="search-btn" onclick="searchHotel()">
+                Search Hotel
+            </button>
+        </div>
+    </section>
+
+    <script>
+        function searchHotel() {
+            alert("Searching hotels...");
+        }
+    </script>
+
+</body>
+
+</html>
