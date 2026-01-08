@@ -1,18 +1,66 @@
-class habitacion {
-    constructor(nombre, descripcion, num, noDisponible, servicios, reservada){
+// Clases usadas en la aplicación
+class Habitacion {
+    constructor(idHabitacion, nombre, descripcion, num, noDisponible, servicios, reservada, precioDia){
+        this.idHabitacion = idHabitacion;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.num = num;
         this.noDisponible = noDisponible;
         this.servicios = servicios;
+        this.reservada = reservada;
+        this.precioDia = precioDia;
     }
 
-    // Setter para actualizar el numero de personas que tiene la habitacion
-    set num(num){
+    // Setters y getters
+
+    set setNum(num){
         this.num = num;
+    }
+
+    set setReservada(param){
+        this.reservada = param;
+    }
+
+    get getAll(){
+        const all = [this.idHabitacion, this.nombre, this.descripcion, this.num, this.noDisponible, this.servicios, this.reservada, this.precioDia];
+
+        return all;
+    }
+
+
+    // Metodos de la classe
+
+    // Añadir fecha que la habitacion no esta disponible
+    añadirFechaNoDisponible(fecha) {
+        if (!this.noDisponible.includes(fecha)) {
+            this.noDisponible.push(fecha);
+        }
+    }
+
+    // Calcula el precio total que cuesta la habitacion segun el precio y los dias de la estancia
+    calcularPrecioTotal(precioDia, diasTotales){
+        const total = precioDia * diasTotales;
+        return total;
     }
 }
 
+class Usuario{
+    constructor(nombre, apellido, DNI, telefono, email, contraseña, habitacionesReservadas){
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.DNI = DNI;
+        this.telefono = telefono;
+        this.email = email;
+        this.contraseña = contraseña;
+        this.habitacionesReservadas = habitacionesReservadas;
+    }
+
+    // Getters y setters
+
+}
+
+
+// Funciones principales de la aplicación
 
 function mostrarCalendari(){
     const div = document.getElementById("calendari");
