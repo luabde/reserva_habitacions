@@ -5,6 +5,7 @@ function mostrarCalendari(){
     div.style.display = "block";
     const tabla = generarCalendari(0, 2025);
 
+    div.innerHTML = "";
     div.appendChild(tabla);
 }
 
