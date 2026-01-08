@@ -38,13 +38,14 @@ class Habitacion {
     }
 
     // Calcula el precio total que cuesta la habitacion segun el precio y los dias de la estancia
-    calcularPrecioTotal(precioDia, diasTotales){
-        const total = precioDia * diasTotales;
+    calcularPrecioTotal( diasTotales){
+        const total = this.precioDia * diasTotales;
         return total;
     }
 }
 
 class Usuario{
+    // Habitaciones reservadas sera un objeto con la id de la habitacion con la fecha, precio total y total de dias.
     constructor(nombre, apellido, DNI, telefono, email, contraseña, habitacionesReservadas){
         this.nombre = nombre;
         this.apellido = apellido;
