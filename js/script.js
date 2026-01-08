@@ -1,3 +1,18 @@
+class habitacion {
+    constructor(nombre, descripcion, num, noDisponible, servicios, reservada){
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.num = num;
+        this.noDisponible = noDisponible;
+        this.servicios = servicios;
+    }
+
+    // Setter para actualizar el numero de personas que tiene la habitacion
+    set num(num){
+        this.num = num;
+    }
+}
+
 
 function mostrarCalendari(){
     const div = document.getElementById("calendari");
