@@ -1,6 +1,6 @@
 // Clases usadas en la aplicación
 class Habitacion {
-    constructor(idHabitacion, nombre, descripcion, num, noDisponible, servicios, reservada, precioDia, valoraciones){
+    constructor(idHabitacion, nombre, descripcion, num, noDisponible, servicios, reservada, precioDia, valoraciones, pais){
         this.idHabitacion = idHabitacion;
         this.nombre = nombre;
         this.descripcion = descripcion;
@@ -10,6 +10,7 @@ class Habitacion {
         this.reservada = reservada;
         this.precioDia = precioDia;
         this.valoraciones = valoraciones;
+        this.pais = pais;
     }
 
     // Setters y getters
