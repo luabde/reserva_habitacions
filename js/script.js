@@ -67,30 +67,68 @@ class Usuario{
 
 function mostrarCalendari(){
     const div = document.getElementById("calendari");
+    const tbody = document.getElementById("calendar-body");
 
     div.style.display = "block";
     const tabla = generarCalendari(0, 2025);
 
-    div.innerHTML = "";
-    div.appendChild(tabla);
+    tbody.innerHTML = "";
+    tbody.innerHTML = tabla;
 }
 
 function generarCalendari(mes, any){
-    let tabla = document.createElement("div");
-
     // Retorna el primer dia del mes que se li pasa
     const primerDia = new Date(any, mes, 1).getDay();
 
     // Retorna el ultim dia del mes (es a dir que se li suma un al mes, per agafar el 0 que es el dia que va abans del primer dia del més seguent, es a dir l'ultim dia del mes)
     const diasMes = new Date(any, mes +1, 0).getDate();
 
-    for(let i = 1; i <= diasMes; i++){
-        tabla.innerHTML += `
-            <div class="casilla" id="${i}">
-            <p>${i}</p>
-            </div>
-        `;
-    }
+    /*
+        En getDay el domingo se trata como el primer dia, es por eso que como en el calendario se trata como el ultimo, se pondra en la ultima posicion que es 6. Y el reto de disas se le resta uno para que se ponga en la columna que queramos
+    */
+    const inicio = primerDia === 0 ? 6 : primerDia -1;
+    let calendario = [];
+    let dia = 1;
 
+    // Primero se genera array bidimensional con todos los dias del mes, ordenados por semanas y dias
+    for(let i = 0; i < 6; i++){
+        // Esto significa las seis semanas de cada mes (maximo son seis semanas cada mes)ç
+        let fila = [];
+        for(let j = 0; j < 7; j++){
+            if(i === 0 && j < inicio){
+                // Cuando nos encontemos en la primera semana y a demás el dia es mas pequeño que el inicio (dia que empieza) se pondra vacio porque el mes aun no ha empezado
+                fila.push("");
+            }else if(dia > diasMes){
+                /*
+                    Cuando nos encontremos en la ultima semana, como puede veriar
+                    el dia en el que finaliza el mes, lo que se hace es subir a la fila
+                    un vacio porque el mes ya ha terminado
+                */
+                fila.push("");
+            }else{
+                // Para el resto de dias se sube el numero de dia
+                fila.push(dia);
+                dia++;
+            }
+        }
+
+        calendario.push(fila);
+    }
+    
+    console.log("Calendario: ", calendario);
+
+    let tabla = "";
+    // Después en base al array bidimensional se va a generar el tbody donde se mostrara el calendario en la interfaz gráfica
+    for(let semana of calendario){
+        tabla += "<tr>";
+        for(let dia of semana){
+            if(dia === ""){
+                tabla += `<td class='empty'></td>`;
+            }else{
+                tabla += `<td class='day'>${dia}</td>`;
+            }
+        }
+        tabla += "</tr>";
+    }
     return tabla;
 }
