@@ -72,12 +72,12 @@
     color: white;
 }
 
-.calendar-table td.selected {
+.selected {
     background: #111;
     color: white;
 }
 
-.calendar-table td.range {
+.range {
     background: #dce4ff;
     color: #111;
 }

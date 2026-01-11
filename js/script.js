@@ -180,10 +180,127 @@ function generarCalendari(mes, any){
             if(dia === ""){
                 tabla += `<td class='empty'></td>`;
             }else{
-                tabla += `<td class='day'>${dia}</td>`;
+                tabla += `<td class='day' onclick="seleccionarDia(${dia})">${dia}</td>`;
             }
         }
         tabla += "</tr>";
     }
     return tabla;
 }
+
+function seleccionarDia(dia){
+    // Primero obtenemos el dia el mes y el año
+    const title = document.getElementById("title-month").innerText;
+    let partes = title.split(" ");
+    let mes = partes[0];
+    let año = partes[1];
+
+    const meses = ["Gener", "Febrer", "Març", "Abril", "Maig", "Juny", "Juliol", "Agost", "Septembre", "Octubre", "Novembre", "Desembre"];
+
+    mes = meses.indexOf(mes);
+
+    const fechaSeleccionada = `${dia}/${mes}/${año}`;
+
+    // Obtenir del localStorage el checkin i checkout
+    let checkin = localStorage.getItem("checkin") ?? null
+    let checkout = localStorage.getItem("checkout") ?? null
+
+    // Abans de posar les dates, comprovar que la data seleccionada no sigui menor que la de avui
+
+    if(checkin === null && checkout === null){
+        // Seleccionar checkin
+        localStorage.setItem("checkin", fechaSeleccionada);
+        console.log("Checkin seleccionado: ", fechaSeleccionada);
+    }else{
+        const compararFechas = esAntes(fechaSeleccionada, checkin);
+
+        // 1. Si es la misma fecha → borrar checkin y checkout
+        if (compararFechas === 0) {
+            localStorage.removeItem("checkin");
+            localStorage.removeItem("checkout");
+            console.log("Checkin eliminado");
+            // return;
+        }
+        // 2. Si la fecha seleccionada es ANTES → reemplazar checkin
+        if (compararFechas < 0) {
+            localStorage.setItem("checkin", fechaSeleccionada);
+            console.log("Nuevo checkin:", fechaSeleccionada);
+            // return;
+        }
+
+        // 3. Si la fecha seleccionada es DESPUÉS → guardar checkout
+        if (compararFechas > 0) {
+            localStorage.setItem("checkout", fechaSeleccionada);
+            console.log("Checkout seleccionado:", fechaSeleccionada);
+            // return;
+        }
+
+    }
+
+    pintarSeleccion();
+
+}
+
+function esAntes(fin, fout){
+    // Funcion para saber si la fecha de inicio va antes que la fecha seleccionada
+    const partes1 = fin.split("/");
+    const partes2 = fout.split("/");
+
+    const d1 = Number(partes1[0]);
+    const m1 = Number(partes1[1]);
+    const a1 = Number(partes1[2]);
+
+    const d2 = Number(partes2[0]);
+    const m2 = Number(partes2[1]);
+    const a2 = Number(partes2[2]);
+
+    // Comparar por mes año y dia, lo que se hace es restar, para ver si son iguales, mayor o menor
+    if (a1 !== a2) return a1 - a2;
+    if (m1 !== m2) return m1 - m2;
+    return d1 - d2;
+}
+
+function pintarSeleccion(){
+    // Funcion para marcar en el calendario el rango de fechas seleccionados
+    let checkin = localStorage.getItem("checkin") ?? null;
+    let checkout = localStorage.getItem("checkout") ?? null;
+
+    if (checkin === null) return;
+
+    const [dIn, mIn, aIn] = checkin.split("/");
+
+    if(checkout === null) return;
+    const [dOut, mOut, aOut] = checkout.split("/")
+    
+
+    // Obtenemos el recuadro de los dias y añadiremos la classe selected a los que han estado seleccionado
+    const tbody = document.getElementById("calendar-body");
+
+    for (let i = 0; i < tbody.rows.length; i++) {
+        let fila = tbody.rows[i];
+
+        for (let j = 0; j < fila.cells.length; j++) {
+            let celda = fila.cells[j];
+
+            // Saltar celdas vacías
+            if (celda.className === "empty") continue;
+
+            let diaTd = celda.innerText;
+
+            // Limpiar antes de pintar
+            celda.classList.remove("selected");
+
+            // Pintar checkin
+            if (diaTd == dIn && mes == mIn && año == aIn) {
+                celda.classList.add("selected");
+            }
+
+            // Pintar checkout
+            if (diaTd == dOut && mes == mOut && año == aOut) {
+                celda.classList.add("selected");
+            }
+        }
+    }
+
+}
+
