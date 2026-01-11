@@ -125,7 +125,7 @@ function canviarMes(tipus){
 
 function generarCalendari(mes, any){
     // Primero, se actualiza el h3 con el mes que se le pasa
-    const meses = ["Gener", "Febrer", "Març", "Abril", "Maig", "Juny", "Juliol", "Agost", "Septembre", "Octubre", "Nombembre"];
+    const meses = ["Gener", "Febrer", "Març", "Abril", "Maig", "Juny", "Juliol", "Agost", "Septembre", "Octubre", "Novembre", "Desembre"];
     const h3 = document.getElementById("title-month");
 
     const mesActual = meses[mes];
