@@ -65,18 +65,74 @@ class Usuario{
 
 // Funciones principales de la aplicación
 
+
+// Funciones para el calendario
 function mostrarCalendari(){
     const div = document.getElementById("calendari");
     const tbody = document.getElementById("calendar-body");
+    
+
+    // Por defecto en el calendario, se mostrara el mes en el que nos encontramos por eso obtendremos la fecha de hoy
+    const fecha = new Date();
+    const any = fecha.getFullYear();
+    const mes = fecha.getMonth();
 
     div.style.display = "block";
-    const tabla = generarCalendari(0, 2025);
+    const tabla = generarCalendari(mes, any);
 
     tbody.innerHTML = "";
     tbody.innerHTML = tabla;
 }
 
+function canviarMes(tipus){
+    const meses = ["Gener", "Febrer", "Març", "Abril", "Maig", "Juny", "Juliol", "Agost", "Septembre", "Octubre", "Novembre", "Desembre"];
+
+    let titulo = document.getElementById("title-month").innerText;
+
+    let partes = titulo.split(" ");
+    let mesActual = partes[0];
+    let anyActual = parseInt(partes[1]);
+
+    let indexActual = meses.indexOf(mesActual);
+
+    let nouIndex = indexActual;
+    let nouAny = anyActual;
+
+    if (tipus === "davant") {
+        if (indexActual === 11) {
+            nouIndex = 0;
+            nouAny++;
+        } else {
+            nouIndex++;
+        }
+    }
+
+    if (tipus === "enrrere") {
+        if (indexActual === 0) {
+            nouIndex = 11;
+            nouAny--;
+        } else {
+            nouIndex--;
+        }
+    }
+
+    // Actualitzar els dies del calendari
+    const tbody = document.getElementById("calendar-body");
+    const tabla = generarCalendari(nouIndex, nouAny);
+    tbody.innerHTML = "";
+    tbody.innerHTML = tabla;
+}
+
 function generarCalendari(mes, any){
+    // Primero, se actualiza el h3 con el mes que se le pasa
+    const meses = ["Gener", "Febrer", "Març", "Abril", "Maig", "Juny", "Juliol", "Agost", "Septembre", "Octubre", "Nombembre"];
+    const h3 = document.getElementById("title-month");
+
+    const mesActual = meses[mes];
+
+    h3.innerHTML = "";
+    h3.innerHTML = `${mesActual} ${any}`;
+
     // Retorna el primer dia del mes que se li pasa
     const primerDia = new Date(any, mes, 1).getDay();
 
@@ -115,7 +171,6 @@ function generarCalendari(mes, any){
         calendario.push(fila);
     }
     
-    console.log("Calendario: ", calendario);
 
     let tabla = "";
     // Después en base al array bidimensional se va a generar el tbody donde se mostrara el calendario en la interfaz gráfica
