@@ -1,9 +1,10 @@
 // Clases usadas en la aplicación
 class Hotel {
-    constructor(nombre, habitaciones, usuarios) {
+    constructor(nombre, habitaciones, usuarios, tipoHabitaciones) {
         this.nombre = nombre;
         this.habitaciones = habitaciones;
         this.usuarios = usuarios;
+        this.tipoHabitaciones = tipoHabitaciones;
     }
 }
 
@@ -103,6 +104,7 @@ class Usuario {
     }
 }
 
+// Funciones principales de la aplicación
 window.addEventListener("load", () => {
 
     // Si no existe el hotel en LocalStorage, lo creamos
@@ -118,6 +120,8 @@ function inicializarDatos() {
     const doble = new TipoHabitacion("Doble", "Habitación estándar confortable", 2, ["TV", "Baño privado", "Escritorio"], 90);
     const individualPlus = new TipoHabitacion("Individual Plus", "Más espacio y confort individual", 1, ["Cama 105cm", "TV", "Mini nevera"], 70);
     const premium = new TipoHabitacion("Premium", "Experiencia para dos premium", 2, ["Cama king size", "Cafetera", "Vistas"], 110);
+
+    tipoHabitaciones = [suite, doble, individualPlus, premium];
 
     // 2. Creamos las habitaciones físicas (heredando del tipo)
     const habs = [
@@ -165,10 +169,15 @@ function inicializarDatos() {
     ];
 
     // 5. Creamos el hotel
-    const miHotel = new Hotel("Costa Dorada", habs, usuarios);
+    const miHotel = new Hotel("Costa Dorada", habs, usuarios, tipoHabitaciones);
 
     // 6. Guardamos todo como JSON stringificado
     localStorage.setItem("hotel", JSON.stringify(miHotel));
 }
 
-// Funciones principales de la aplicación
+var usuarios = [];
+var tipoHabitaciones = [];
+var habitaciones = [];
+function crearObjetosJSON(){
+    
+}
