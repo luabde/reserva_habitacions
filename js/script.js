@@ -5,6 +5,18 @@ class Hotel {
         this.usuarios = usuarios;
         this.tipoHabitaciones = tipoHabitaciones;
     }
+
+    obtenerTipoHabitacion(tipo){
+        const tipoHabitacion = this.tipoHabitaciones.filter(hab => hab._nombre === tipo);
+
+        return tipoHabitacion;
+    }
+
+    obtenerHabDispo(tipo){
+        const tipoHab = this.obtenerTipoHabitacion(tipo);
+        console.log(tipoHab);
+    }
+
 }
 
 class TipoHabitacion {
@@ -219,19 +231,26 @@ function crearObjetosJSON(){
 
 // Funcions per les habitacions
 
-function buscarHabitacio(){
-    const fechas = document.getElementById("input-fechas");
-    const tipoB = document.getElementById("select-habitacion");
-    const personasB = document.getElementById("select-personas");
+function buscarHabitacio() {
+    const fechas = document.getElementById("input-fechas").value;
+    const tipo = document.getElementById("select-habitacion").value;
+    const personas = document.getElementById("select-personas").value;
 
-    const [checkin, out] = fechas.split("-");
+    // separar fechas
+    const [checkin, checkout] = fechas.split(" - ");
 
-    let tipo = tipoB.map(t => {
-        if (t.selected) return t;
-    });
+    // personas viene como "2 personas" → nos quedamos con el número
+    const numPersonas = personas.split(" ")[0];
 
-    let personas = personasB.map(p =>{
-        
-    });
+    console.log("Check in:", checkin, "checkout:", checkout);
+    console.log("TIPO:", tipo);
+    console.log("personas:", numPersonas);
 
+    // Nos aseguramos de que todos los campos de la búsqueda esten completos
+    if(!checkin || !checkout || !tipo || !numPersonas || tipo === "Selecciona una opción" || numPersonas === "Escoge personas"){
+        alert("Es obligatorio seleccionar todos los campos para la búsqueda");
+        return;
+    }
+
+    hotel.obtenerHabDispo(tipo);
 }
