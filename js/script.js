@@ -215,3 +215,23 @@ function crearObjetosJSON(){
     // 3. Reconstruir el Hotel
     hotel = new Hotel(datos.nombre, usuarios, tipoHabitaciones);
 }
+
+
+// Funcions per les habitacions
+
+function buscarHabitacio(){
+    const fechas = document.getElementById("input-fechas");
+    const tipoB = document.getElementById("select-habitacion");
+    const personasB = document.getElementById("select-personas");
+
+    const [checkin, out] = fechas.split("-");
+
+    let tipo = tipoB.map(t => {
+        if (t.selected) return t;
+    });
+
+    let personas = personasB.map(p =>{
+        
+    });
+
+}
