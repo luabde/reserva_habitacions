@@ -1,0 +1,140 @@
+:root {
+    --color-arena: #fdfaf5;
+    --color-tierra: #8c7365;
+    --texto: #4a4a4a;
+    --blanco: #ffffff;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--color-arena);
+    color: var(--texto);
+    font-family: 'Montserrat', sans-serif;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Contenedor sin bordes ni fondo de card */
+.login-container {
+    width: 100%;
+    max-width: 380px;
+    padding: 20px;
+    text-align: center;
+    animation: fadeIn 1.2s ease-in-out;
+}
+
+.login-container h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 48px;
+    font-weight: 400;
+    color: var(--color-tierra);
+    margin-bottom: 10px;
+    letter-spacing: -1px;
+}
+
+.subtitle {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: #b5a499;
+    margin-bottom: 50px;
+    display: block;
+}
+
+/* Estilo de inputs minimalista: solo línea inferior */
+.input-group {
+    margin-bottom: 35px;
+    position: relative;
+}
+
+.input-group label {
+    display: block;
+    font-size: 10px;
+    text-transform: uppercase;
+    color: var(--color-tierra);
+    font-weight: 600;
+    margin-bottom: 5px;
+    letter-spacing: 2px;
+    text-align: left;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px 0;
+    border: none;
+    border-bottom: 1px solid #dcd3cc;
+    background: transparent;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 15px;
+    outline: none;
+    transition: all 0.4s ease;
+    color: var(--texto);
+}
+
+.input-group input:focus {
+    border-bottom: 1px solid var(--color-tierra);
+}
+
+.input-group input::placeholder {
+    color: #ccc;
+    font-weight: 300;
+}
+
+/* Botón estilizado */
+.btn-submit {
+    background-color: var(--color-tierra);
+    color: var(--blanco);
+    border: none;
+    padding: 18px 0;
+    border-radius: 2px;
+    /* Menos curvo para verse más premium */
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 13px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    width: 100%;
+    transition: all 0.4s;
+    margin-top: 20px;
+}
+
+.btn-submit:hover {
+    background-color: #5e4d44;
+    letter-spacing: 4px;
+}
+
+.back-link {
+    display: inline-block;
+    margin-top: 40px;
+    font-size: 12px;
+    color: #b5a499;
+    text-decoration: none;
+    transition: color 0.3s;
+    font-style: italic;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16px;
+}
+
+.back-link:hover {
+    color: var(--color-tierra);
+    opacity: 0.8;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
