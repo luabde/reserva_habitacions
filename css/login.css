@@ -127,6 +127,24 @@ body {
     opacity: 0.8;
 }
 
+.toggle-text {
+    margin-top: 25px;
+    font-size: 13px;
+    color: #b5a499;
+}
+
+.toggle-link {
+    color: var(--color-tierra);
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s;
+}
+
+.toggle-link:hover {
+    text-decoration: underline;
+    opacity: 0.8;
+}
+
 @keyframes fadeIn {
     from {
         opacity: 0;
