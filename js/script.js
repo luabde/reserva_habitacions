@@ -12,9 +12,14 @@ class Hotel {
         return tipoHabitacion;
     }
 
-    obtenerHabDispo(tipo){
+    obtenerHabDispo(tipo, checkin, checkout){
+        // Creamos el rango de fechas que se quiere reservar
+
+        // Obtenemos las fechas que no estan disponibles de cada habitacion y nos aseguramos de que esa habitacion esta dispobible
         const tipoHab = this.obtenerTipoHabitacion(tipo);
-        console.log(tipoHab);
+        for(let habitacion of tipoHab[0]._habitaciones){
+            console.log("Habitacion: ", habitacion);
+        }
     }
 
 }
@@ -218,7 +223,7 @@ function crearObjetosJSON(){
     // 2. Reconstruir tipo de habitacion y habitaciones de cada tipo
     tipoHabitaciones = datos.tipoHabitaciones.map(tipo =>{
         const habitacionesReconstruidas = tipo._habitaciones ? tipo._habitaciones.map(hab =>{
-            return habit = new Habitacion(hab._id, hab._numero, hab._urlFotos);
+            return habit = new Habitacion(hab.idHab, hab.numero, hab.urlFotos);
         }) : [];
 
         return new TipoHabitacion(tipo._nombre, tipo._descripcion, tipo._capacidad, tipo._servicios, tipo._precioBase, habitacionesReconstruidas);
@@ -252,5 +257,5 @@ function buscarHabitacio() {
         return;
     }
 
-    hotel.obtenerHabDispo(tipo);
+    hotel.obtenerHabDispo(tipo, checkin, checkout);
 }
