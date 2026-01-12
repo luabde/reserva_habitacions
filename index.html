@@ -1,225 +1,274 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <title>Hotel</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="js/script.js"></script>
-    <link rel="stylesheet" href="css/style.css">
-    <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500&display=swap"
+        rel="stylesheet">
 
     <style>
+        :root {
+            --color-arena: #fdfaf5;
+            --color-tierra: #8c7365;
+            --color-suave: #f4eee8;
+            --texto: #4a4a4a;
+            --blanco: #ffffff;
+            --curva-media: 25px;
+            --curva-grande: 60px;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Inter', sans-serif;
         }
 
         body {
-            background: #f4f6f8;
-            color: #222;
+            background-color: var(--color-arena);
+            color: var(--texto);
+            font-family: 'Montserrat', sans-serif;
+            padding-top: 75px;
+            /* Espacio para que el menú fijo no tape el contenido */
+            line-height: 1.6;
         }
 
-        /* ================= HEADER ================= */
-        header {
-            height: 80px;
-            padding: 0 60px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-
-            position: sticky;
+        /* --- HEADER ESTÁTICO (FIXED) --- */
+        header.nav-container {
+            position: fixed;
             top: 0;
-            z-index: 100;
-
-            background: #f4f6f8;
-            backdrop-filter: blur(6px);
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            width: 100%;
+            height: 75px;
+            background-color: var(--color-arena);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 8%;
+            z-index: 2000;
+            box-shadow: 0 15px 35px rgba(140, 115, 101, 0.15);
         }
 
         .logo {
-            font-weight: 700;
-            font-size: 24px;
-        }
-
-        nav a {
-            margin: 0 15px;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 28px;
+            font-weight: 600;
+            color: var(--color-tierra);
             text-decoration: none;
-            color: #333;
+            letter-spacing: 1px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 35px;
+        }
+
+        .nav-links a {
+            color: var(--texto);
+            text-decoration: none;
+            font-size: 14px;
             font-weight: 500;
+            transition: color 0.3s;
         }
 
-        nav a:hover {
-            color: #0077ff;
+        .nav-links a:hover {
+            color: var(--color-tierra);
         }
 
-        /* ================= HERO ================= */
+        /* --- HERO --- */
         .hero {
-            margin: 0 20px 20px;
-            border-radius: 20px;
-            min-height: calc(100vh - 100px);
-
-            background:
-                linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25)),
-                url("img/hero.png") center/cover no-repeat;
-
-            padding: 60px;
+            height: 50vh;
+            margin: 20px;
+            position: relative;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            color: white;
+            align-items: center;
+            text-align: center;
+            color: var(--blanco);
+            border-radius: var(--curva-grande);
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+            filter: brightness(0.8);
         }
 
         .hero h1 {
-            font-size: 56px;
-            font-weight: 700;
-            max-width: 600px;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(32px, 5vw, 60px);
+            margin-bottom: 15px;
+            font-style: italic;
+            color: var(--color-arena);
         }
 
-        .hero p {
-            margin-top: 20px;
-            font-size: 18px;
-            opacity: 0.9;
-            max-width: 500px;
-        }
-
-        /* ================= SEARCH CARD ================= */
-        .search-card {
-            background: white;
-            border-radius: 16px;
-            padding: 25px;
-            margin-top: 60px;
-
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr 1fr auto;
-            column-gap: 20px;
-
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        /* --- BARRA DE RESERVA --- */
+        .barra-reserva {
+            background: var(--blanco);
+            padding: 15px 30px;
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            border-radius: 100px;
+            box-shadow: 0 15px 35px rgba(140, 115, 101, 0.15);
+            max-width: 900px;
+            width: 90%;
+            margin-top: -50px;
+            /* Se solapa un poco con el hero */
             position: relative;
-            top: 40px;
+            z-index: 10;
+            margin-left: auto;
+            margin-right: auto;
         }
 
-        .field {
+        .campo {
             display: flex;
             flex-direction: column;
+            flex: 1;
+            padding: 5px 10px;
+            border-right: 1px solid #f0f0f0;
         }
 
-        .field label {
-            font-size: 12px;
-            color: #777;
-            margin-bottom: 6px;
+        .campo:last-of-type {
+            border-right: none;
         }
 
-        .field input,
-        .field select {
-            padding: 12px;
-            border-radius: 8px;
-            border: 1px solid #ddd;
-            font-size: 14px;
-        }
-
-        .search-btn {
-            padding: 14px 50px;
-            border-radius: 12px;
-            border: none;
-            background: #111;
-            color: white;
+        .campo label {
+            font-size: 10px;
+            text-transform: uppercase;
+            color: var(--color-tierra);
             font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .campo input,
+        .campo select {
+            border: none;
+            background: none;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 14px;
+            outline: none;
+            color: var(--texto);
+        }
+
+        .btn-reserva {
+            background-color: var(--color-tierra);
+            color: var(--blanco);
+            border: none;
+            padding: 14px 28px;
+            border-radius: 100px;
             cursor: pointer;
+            font-weight: 500;
+            font-size: 14px;
+            transition: all 0.3s;
         }
 
-        /* ================= SECTIONS ================= */
-        section.content {
-            padding: 100px 60px;
+        .btn-reserva:hover {
+            background-color: #725d52;
+            transform: scale(1.03);
         }
 
-        section.content h2 {
-            font-size: 36px;
-            margin-bottom: 40px;
+        /* --- SECCIONES --- */
+        .seccion-texto {
+            padding: 100px 10% 60px;
+            text-align: center;
         }
 
-        /* HABITACIONES */
-        .rooms {
+        .seccion-texto h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 38px;
+            color: var(--color-tierra);
+            margin-bottom: 20px;
+        }
+
+        .grid-habitaciones {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 40px;
+            padding: 0 10% 100px;
         }
 
-        .room-card {
-            background: white;
-            border-radius: 16px;
+        .tarjeta-habitacion {
+            border-radius: var(--curva-media);
             overflow: hidden;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
         }
 
-        .room-card img {
+        .tarjeta-habitacion img {
             width: 100%;
-            height: 200px;
+            height: 280px;
             object-fit: cover;
         }
 
-        .room-card div {
-            padding: 20px;
-        }
-
-        /* SERVICIOS */
-        .services {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 30px;
-        }
-
-        .service {
-            background: white;
-            border-radius: 16px;
+        .tarjeta-contenido {
             padding: 30px;
-            text-align: center;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
         }
 
-        /* VALORACIONES */
-        .reviews {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 30px;
+        .tarjeta-contenido h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 24px;
+            margin-bottom: 10px;
         }
 
-        .review {
-            background: white;
-            padding: 30px;
-            border-radius: 16px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        .tarjeta-contenido p {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 20px;
         }
 
-        /* FOOTER */
+        .link-mas {
+            color: var(--color-tierra);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 13px;
+            border-bottom: 2px solid #e9c46a;
+        }
+
+        /* --- FOOTER --- */
         footer {
-            background: #111;
-            color: white;
-            padding: 60px;
+            background: var(--color-suave);
+            padding: 80px 10% 40px;
             text-align: center;
+            border-radius: var(--curva-grande) var(--curva-grande) 0 0;
+        }
+
+        .footer-logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 30px;
+            color: var(--color-tierra);
+            margin-bottom: 15px;
+            display: block;
         }
 
         /* RESPONSIVE */
-        @media (max-width: 900px) {
-            header {
-                padding: 0 20px;
+        @media (max-width: 850px) {
+            .barra-reserva {
+                flex-direction: column;
+                border-radius: 30px;
+                padding: 25px;
+                width: 85%;
             }
 
-            .hero {
-                padding: 40px 20px;
+            .campo {
+                border-right: none;
+                border-bottom: 1px solid #f0f0f0;
+                width: 100%;
+                padding: 10px 0;
             }
 
-            .search-card {
-                grid-template-columns: 1fr;
+            header.nav-container {
+                padding: 0 5%;
             }
 
-            .rooms,
-            .services,
-            .reviews {
-                grid-template-columns: 1fr;
+            .nav-links {
+                display: none;
             }
         }
     </style>
@@ -227,116 +276,210 @@
 
 <body>
 
-    <header>
-        <div class="logo">trivago</div>
-        <nav>
-            <a href="#">Inicio</a>
-            <a href="#">Habitaciones</a>
-            <a href="#">Valoraciones</a>
-            <a href="#">Contacto</a>
+    <header class="nav-container">
+        <a href="#" class="logo">Hotel</a>
+        <nav class="nav-links">
+            <a href="#habitaciones">Nuestras Habitaciones</a>
+            <a href="#hotel">El Hotel</a>
+            <a href="#contacto">Contacto</a>
         </nav>
     </header>
 
     <section class="hero">
-        <h1>Bienvenido a nuestro hotel</h1>
-        <p>Reserva tus habitaciones con un solo clic</p>
+        <img class="hero-bg" src="img/hero.png" alt="Familia en la playa">
+        <h1>Bienvenidos a <i>lucia no se que posar</i></h1>
+        <p>lucia no se que posar</p>
+    </section>
 
-        <div class="search-card">
-            <div class="field">
-                <label>Destino</label>
-                <input type="text">
-            </div>
-
-            <<div class="field">
-                <label>Check in / out</label>
-                <div class="input-wrapper">
-                    <input type="text">
-                    <svg onclick="mostrarCalendari()" xmlns="http://www.w3.org/2000/svg" height="24px"
-                        viewBox="0 -960 960 960" width="24px" fill="#000000">
-                        <path
-                            d="M200-80q-33 0-56.5-23.5T120-160v-560q0-33 23.5-56.5T200-800h40v-80h80v80h320v-80h80v80h40q33 0 56.5 23.5T840-720v560q0 33-23.5 56.5T760-80H200Zm0-80h560v-400H200v400Zm0-480h560v-80H200v80Zm0 0v-80 80Zm280 240q-17 0-28.5-11.5T440-440q0-17 11.5-28.5T480-480q17 0 28.5 11.5T520-440q0 17-11.5 28.5T480-400Zm-160 0q-17 0-28.5-11.5T280-440q0-17 11.5-28.5T320-480q17 0 28.5 11.5T360-440q0 17-11.5 28.5T320-400Zm320 0q-17 0-28.5-11.5T600-440q0-17 11.5-28.5T640-480q17 0 28.5 11.5T680-440q0 17-11.5 28.5T640-400ZM480-240q-17 0-28.5-11.5T440-280q0-17 11.5-28.5T480-320q17 0 28.5 11.5T520-280q0 17-11.5 28.5T480-240Zm-160 0q-17 0-28.5-11.5T280-280q0-17 11.5-28.5T320-320q17 0 28.5 11.5T360-280q0 17-11.5 28.5T320-240Zm320 0q-17 0-28.5-11.5T600-280q0-17 11.5-28.5T640-320q17 0 28.5 11.5T680-280q0 17-11.5 28.5T640-240Z" />
-                    </svg>
-                </div>
+    <div class="barra-reserva">
+        <div class="campo">
+            <label>Entrada</label>
+            <input type="date" value="2026-08-10">
         </div>
-
-        <div id="calendari" class="calendar-wrapper" style="display: none;">
-            <div class="calendar-header">
-                <button class="prev-month" onclick="canviarMes('enrrere')">‹</button>
-                <h3 class="month-title" id="title-month"></h3>
-                <button class="next-month" onclick="canviarMes('davant')">›</button>
-            </div>
-
-            <table class="calendar-table">
-                <thead>
-                    <tr>
-                        <th>Dill</th>
-                        <th>Dima</th>
-                        <th>Dime</th>
-                        <th>Dij</th>
-                        <th>Div</th>
-                        <th>Diss</th>
-                        <th>Diu</th>
-                    </tr>
-                </thead>
-
-                <tbody id="calendar-body">
-                    
-                </tbody>
-            </table>
+        <div class="campo">
+            <label>Salida</label>
+            <input type="date" value="2026-08-17">
         </div>
-
-        <div class="field">
+        <div class="campo">
             <label>Personas</label>
             <select>
-                <option>2 Personas · 1 Habitación</option>
+                <option>2 Adultos + 1 Niño</option>
+                <option selected>2 Adultos + 2 Niños</option>
+                <option>Más de 4 personas</option>
             </select>
         </div>
+        <button class="btn-reserva">Reservar estancia</button>
+    </div>
 
-        <button class="search-btn">Buscar</button>
-        </div>
-    </section>
+    <main>
+        <section class="seccion-texto" id="hotel">
+            <h2>Mucho más que un hotel</h2>
+            <p>lucia no se que posar</p>
+        </section>
 
-    <section class="content">
-        <h2>Habitaciones</h2>
-        <div class="rooms">
-            <div class="room-card">
-                <img src="https://picsum.photos/400/300?1">
-                <div>Habitación Deluxe</div>
+        <section class="grid-habitaciones" id="habitaciones">
+            <div class="tarjeta-habitacion">
+                <img src="https://images.unsplash.com/photo-1566665797739-1674de7a421a?q=80&w=1974&auto=format&fit=crop"
+                    alt="Habitación familiar">
+                <div class="tarjeta-contenido">
+                    <h3>Suite</h3>
+                    <p>Dos espacios conectados para mantener la privacidad de los padres y la diversión de los niños.
+                    </p>
+                    <a href="#" class="link-mas">Ver detalles</a>
+                </div>
             </div>
-            <div class="room-card">
-                <img src="https://picsum.photos/400/300?2">
-                <div>Habitación Familiar</div>
+
+            <div class="tarjeta-habitacion">
+                <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=2070&auto=format&fit=crop"
+                    alt="Vistas al mar">
+                <div class="tarjeta-contenido">
+                    <h3>Doble con Vistas</h3>
+                    <p>Luminosa, cálida y perfecta para despertarse con el sonido de las olas de fondo.</p>
+                    <a href="#" class="link-mas">Ver detalles</a>
+                </div>
             </div>
-            <div class="room-card">
-                <img src="https://picsum.photos/400/300?3">
-                <div>Suite Premium</div>
-            </div>
-        </div>
-    </section>
+        </section>
+    </main>
 
-    <section class="content">
-        <h2>Servicios</h2>
-        <div class="services">
-            <div class="service">Wifi gratis</div>
-            <div class="service">Piscina</div>
-            <div class="service">Spa</div>
-            <div class="service">Restaurante</div>
+    <footer id="contacto">
+        <span class="footer-logo">Hotel</span>
+        <p>Estamos en no se que posar, esperándoos con los brazos abiertos.</p>
+        <div style="margin-top: 40px; font-size: 11px; color: var(--color-tierra); letter-spacing: 1px;">
+            © 2026 HOTEL &middot; VACACIONES EN FAMILIA
         </div>
-    </section>
-
-    <section class="content">
-        <h2>Valoraciones</h2>
-        <div class="reviews">
-            <div class="review">⭐⭐⭐⭐⭐ Excelente hotel</div>
-            <div class="review">⭐⭐⭐⭐ Muy cómodo</div>
-            <div class="review">⭐⭐⭐⭐⭐ Repetiremos</div>
-        </div>
-    </section>
-
-    <footer>
-        © 2026 Hotel · Todos los derechos reservados
     </footer>
 
+    <!-- Container del Calendario (Oculto por defecto) -->
+    <div id="calendari" class="calendar-wrapper" style="display: none;">
+        <div class="calendar-header">
+            <button class="prev-month" onclick="canviarMes('enrrere')">‹</button>
+            <h3 class="month-title" id="title-month"></h3>
+            <button class="next-month" onclick="canviarMes('davant')">›</button>
+        </div>
+
+        <table class="calendar-table">
+            <thead>
+                <tr>
+                    <th>Dill</th>
+                    <th>Dima</th>
+                    <th>Dime</th>
+                    <th>Dij</th>
+                    <th>Div</th>
+                    <th>Diss</th>
+                    <th>Diu</th>
+                </tr>
+            </thead>
+
+            <tbody id="calendar-body">
+
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Script del Calendario -->
+    <script src="js/script.js"></script>
+
+
+    <!-- Link a estilos del calendario (añadido aqui para asegurar path relativo correcto) -->
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- Script de Integración (Embedded) -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // 1. INICIALIZACIÓN
+            if (typeof mostrarCalendari === 'function') {
+                mostrarCalendari();
+            }
+
+            // 2. EXTENSIÓN DEL SCRIPT EXISTENTE (Monkey Patching)
+            // Envolvemos las funciones originales para inyectar nuestra lógica sin tocar script.js
+
+            if (typeof window.seleccionarDia === 'function') {
+                const originalSeleccionarDia = window.seleccionarDia;
+                window.seleccionarDia = function (dia) {
+                    originalSeleccionarDia(dia);
+                    syncInputs();
+                };
+            }
+
+            if (typeof window.canviarMes === 'function') {
+                const originalCanviarMes = window.canviarMes;
+                window.canviarMes = function (tipus) {
+                    originalCanviarMes(tipus);
+                    // Repintar selección al cambiar mes
+                    if (typeof pintarSeleccion === 'function') {
+                        pintarSeleccion();
+                    }
+                };
+            }
+
+            // 3. SINCRONIZACIÓN DE INPUTS
+            const inputEntrada = document.querySelector('.barra-reserva .campo:nth-child(1) input');
+            const inputSalida = document.querySelector('.barra-reserva .campo:nth-child(2) input');
+
+            function syncInputs() {
+                const checkin = localStorage.getItem("checkin");
+                const checkout = localStorage.getItem("checkout");
+
+                if (checkin) inputEntrada.value = formatDateForInput(checkin);
+                else inputEntrada.value = '';
+
+                if (checkout) inputSalida.value = formatDateForInput(checkout);
+                else inputSalida.value = '';
+            }
+
+            // dd/mm/yyyy (script.js uses 0-indexed month) -> yyyy-mm-dd
+            function formatDateForInput(dateString) {
+                if (!dateString) return '';
+                const parts = dateString.split('/');
+                if (parts.length !== 3) return '';
+
+                let d = parts[0].padStart(2, '0');
+                // script.js guarda el mes como indice (0=Enero), input necesita 01
+                let m = (parseInt(parts[1]) + 1).toString().padStart(2, '0');
+                let y = parts[2];
+
+                return `${y}-${m}-${d}`;
+            }
+
+            // 4. UI: Mostrar/Ocultar
+            const calendarElement = document.getElementById('calendari');
+
+            function toggleCalendar(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                calendarElement.style.display = 'block';
+            }
+
+            function closeCalendar() {
+                calendarElement.style.display = 'none';
+            }
+
+            inputEntrada.addEventListener('click', toggleCalendar);
+            inputSalida.addEventListener('click', toggleCalendar);
+
+            // Prevent native picker on mobile/focus
+            inputEntrada.addEventListener('focus', (e) => { e.preventDefault(); inputEntrada.blur(); toggleCalendar(e); });
+            inputSalida.addEventListener('focus', (e) => { e.preventDefault(); inputSalida.blur(); toggleCalendar(e); });
+
+            document.addEventListener('click', (e) => {
+                if (calendarElement.style.display === 'block') {
+                    const isInput = e.target === inputEntrada || e.target === inputSalida;
+                    const isCalendar = calendarElement.contains(e.target);
+                    if (!isInput && !isCalendar) {
+                        closeCalendar();
+                    }
+                }
+            });
+
+            // Carga inicial
+            syncInputs();
+            if (typeof pintarSeleccion === 'function') {
+                pintarSeleccion();
+            }
+        });
+    </script>
 </body>
 
 </html>
