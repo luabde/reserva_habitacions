@@ -1,0 +1,330 @@
+/* Estilos específicos para habitacion.html */
+
+/* --- LAYOUT PRINCIPAL --- */
+.contenedor-detalles {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 60px;
+    align-items: start;
+}
+
+/* --- GALERÍA --- */
+.galeria-principal {
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 15px;
+    max-width: 1200px;
+    margin: 20px auto 40px;
+    padding: 0 20px;
+    height: 500px;
+}
+
+.imagen-grande {
+    height: 100%;
+    border-radius: var(--curva-media) 0 0 var(--curva-media);
+    overflow: hidden;
+}
+
+.imagen-grande img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.imagenes-secundarias {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    height: 100%;
+}
+
+.imagenes-secundarias img {
+    height: calc(50% - 7.5px);
+    width: 100%;
+    object-fit: cover;
+    border-radius: 0 var(--curva-media) var(--curva-media) 0;
+}
+
+.galeria-principal img:hover {
+    transform: scale(1.02);
+}
+
+/* --- INFORMACIÓN DE LA HABITACIÓN --- */
+.breadcrumb {
+    font-size: 14px;
+    color: #888;
+    margin-bottom: 20px;
+}
+
+.breadcrumb a {
+    color: var(--color-tierra);
+    text-decoration: none;
+}
+
+.info-principal h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 48px;
+    color: var(--color-tierra);
+    margin-bottom: 15px;
+    line-height: 1.1;
+}
+
+.capacidad {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #666;
+    margin-bottom: 30px;
+    font-weight: 500;
+}
+
+.capacidad svg {
+    stroke: var(--color-tierra);
+}
+
+.descripcion {
+    font-size: 16px;
+    line-height: 1.8;
+    color: var(--texto);
+    margin-bottom: 40px;
+}
+
+/* --- CARACTERÍSTICAS --- */
+.caracteristicas h2,
+.servicios-incluidos h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    color: var(--color-tierra);
+    margin-bottom: 25px;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 10px;
+}
+
+.grid-caracteristicas {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 20px;
+    list-style: none;
+    margin-bottom: 50px;
+}
+
+.grid-caracteristicas li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--texto);
+    font-size: 14px;
+}
+
+.grid-caracteristicas svg {
+    stroke: var(--color-tierra);
+    width: 24px;
+    height: 24px;
+}
+
+/* --- SERVICIOS INCLUIDOS --- */
+.grid-servicios {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+}
+
+.servicio-item h3 {
+    font-size: 16px;
+    margin-bottom: 5px;
+    color: var(--texto);
+}
+
+.servicio-item p {
+    font-size: 13px;
+    color: #888;
+}
+
+/* --- TARJETA RESERVA (SIDEBAR) --- */
+.tarjeta-reserva {
+    background: var(--blanco);
+    padding: 30px;
+    border-radius: var(--curva-media);
+    box-shadow: 0 10px 40px rgba(140, 115, 101, 0.1);
+    position: sticky;
+    top: 100px;
+    border: 1px solid #f0f0f0;
+}
+
+.precio {
+    display: flex;
+    align-items: baseline;
+    gap: 5px;
+    margin-bottom: 25px;
+}
+
+.cantidad {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 36px;
+    font-weight: 600;
+    color: var(--color-tierra);
+}
+
+.periodo {
+    color: #888;
+    font-size: 14px;
+}
+
+.tarjeta-reserva .campo {
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 12px 15px;
+    margin-bottom: 20px;
+}
+
+.tarjeta-reserva .campo label {
+    font-size: 10px;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--color-tierra);
+    margin-bottom: 8px;
+    display: block;
+}
+
+.tarjeta-reserva .sub-campo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.tarjeta-reserva .sub-campo input,
+.tarjeta-reserva .sub-campo select {
+    border: none;
+    outline: none;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    width: 100%;
+    color: var(--texto);
+    background: transparent;
+    cursor: pointer;
+}
+
+.tarjeta-reserva .sub-campo svg {
+    width: 20px;
+    height: 20px;
+    stroke: var(--color-tierra);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.tarjeta-reserva .sub-campo svg:hover {
+    transform: scale(1.1);
+}
+
+.selector-huespedes {
+    margin-bottom: 25px;
+}
+
+.selector-huespedes label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--texto);
+}
+
+.selector-huespedes select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    font-family: 'Montserrat', sans-serif;
+    outline: none;
+    cursor: pointer;
+}
+
+.btn-reservar {
+    width: 100%;
+    background-color: var(--color-tierra);
+    color: var(--blanco);
+    border: none;
+    padding: 16px;
+    border-radius: 100px;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-bottom: 15px;
+}
+
+.btn-reservar:hover {
+    background-color: #725d52;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(140, 115, 101, 0.3);
+}
+
+.cancelacion-info {
+    text-align: center;
+    font-size: 12px;
+    color: #888;
+}
+
+.resumen-precio {
+    margin-bottom: 25px;
+}
+
+.linea-precio {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.linea-precio.total {
+    margin-top: 15px;
+    color: var(--texto);
+    font-size: 18px;
+}
+
+hr {
+    border: none;
+    border-top: 1px solid #e0e0e0;
+    margin: 15px 0;
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+    .contenedor-detalles {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+
+    .galeria-principal {
+        grid-template-columns: 1fr;
+        height: auto;
+    }
+
+    .imagen-grande {
+        height: 300px;
+        border-radius: var(--curva-media) var(--curva-media) 0 0;
+    }
+
+    .imagenes-secundarias {
+        flex-direction: row;
+        height: 150px;
+    }
+
+    .imagenes-secundarias img {
+        width: 50%;
+        height: 100%;
+    }
+
+    .imagenes-secundarias img:first-child {
+        border-radius: 0 0 0 var(--curva-media);
+    }
+
+    .imagenes-secundarias img:last-child {
+        border-radius: 0 0 var(--curva-media) 0;
+    }
+}
