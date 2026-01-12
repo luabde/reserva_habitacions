@@ -214,6 +214,4 @@ function crearObjetosJSON(){
 
     // 3. Reconstruir el Hotel
     hotel = new Hotel(datos.nombre, usuarios, tipoHabitaciones);
-
-    console.log("Sistema reconstruido:", hotel);
 }
