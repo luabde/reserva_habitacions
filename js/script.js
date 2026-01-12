@@ -61,7 +61,7 @@ class TipoHabitacion {
 }
 
 class Habitacion{
-    constructor(id, numero, tipo, urlFotos = []) {
+    constructor(id, numero, urlFotos = []) {
         this.idHab = id;
         this.numero = numero;
         this.urlFotos = urlFotos;
@@ -78,7 +78,7 @@ class Habitacion{
 }
 
 class Reserva {
-    constructor(id, habitacion, checkin, checkout, diasTotales) {
+    constructor(id, habitacion, checkin, checkout, diasTotales, precioTotal) {
         this.id = id;
         this.habitacion = habitacion;
         this.checkin = checkin;
@@ -110,6 +110,9 @@ window.addEventListener("load", () => {
         console.log("Generando datos iniciales del hotel...");
         inicializarDatos();
     }
+
+    // Independientemente de si lo acabamos de crear o ya estaba, reconstruimos los objetos
+    crearObjetosJSON();
 });
 
 function inicializarDatos() {
@@ -185,13 +188,32 @@ function inicializarDatos() {
 
 var usuarios = [];
 var tipoHabitaciones = [];
-var habitaciones = [];
 var hotel;
-function crearObjetosJSON(){
-    const datos = JSON.parse(localStorage.getItem("hotal"));
 
-    // 1. Reconstruir los usuarios
-    usuarios = datos.usuarios.map( u =>{
-        new Usuario(u.id, u.nombreCompleto)
+function crearObjetosJSON(){
+    const datos = JSON.parse(localStorage.getItem("hotel"));
+
+    // 1. Reconstruir Usuarios (y sus reservas)
+    usuarios = datos.usuarios.map(u => {
+        // Reconstruimos las reservas en caso de que hayan, sino pues sera array vacio
+        const reservasReconstruidas = u.reservas ? u.reservas.map(r => {
+            const reserva = new Reserva(r.id, r.habitacion, r.checkin, r.checkout, r.diasTotales, r.precioTotal);
+            return reserva;
+        }) : [];
+        return new Usuario(u.id, u.nombreCompleto, u.email, u.contraseña, reservasReconstruidas);
     });
+
+    // 2. Reconstruir tipo de habitacion y habitaciones de cada tipo
+    tipoHabitaciones = datos.tipoHabitaciones.map(tipo =>{
+        const habitacionesReconstruidas = tipo._habitaciones ? tipo._habitaciones.map(hab =>{
+            return habit = new Habitacion(hab._id, hab._numero, hab._urlFotos);
+        }) : [];
+
+        return new TipoHabitacion(tipo._nombre, tipo._descripcion, tipo._capacidad, tipo._servicios, tipo._precioBase, habitacionesReconstruidas);
+    });
+
+    // 3. Reconstruir el Hotel
+    hotel = new Hotel(datos.nombre, usuarios, tipoHabitaciones);
+
+    console.log("Sistema reconstruido:", hotel);
 }
