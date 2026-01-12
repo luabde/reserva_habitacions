@@ -3,281 +3,18 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Hotel</title>
+    <title>Hotel Costa Dorada - Reserva de Habitaciones</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link
         href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500&display=swap"
         rel="stylesheet">
-
-    <style>
-        :root {
-            --color-arena: #fdfaf5;
-            --color-tierra: #8c7365;
-            --color-suave: #f4eee8;
-            --texto: #4a4a4a;
-            --blanco: #ffffff;
-            --curva-media: 25px;
-            --curva-grande: 60px;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            background-color: var(--color-arena);
-            color: var(--texto);
-            font-family: 'Montserrat', sans-serif;
-            padding-top: 75px;
-            /* Espacio para que el menú fijo no tape el contenido */
-            line-height: 1.6;
-        }
-
-        /* --- HEADER ESTÁTICO (FIXED) --- */
-        header.nav-container {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            height: 75px;
-            background-color: var(--color-arena);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 8%;
-            z-index: 2000;
-            box-shadow: 0 15px 35px rgba(140, 115, 101, 0.15);
-        }
-
-        .logo {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 28px;
-            font-weight: 600;
-            color: var(--color-tierra);
-            text-decoration: none;
-            letter-spacing: 1px;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 35px;
-        }
-
-        .nav-links a {
-            color: var(--texto);
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 500;
-            transition: color 0.3s;
-        }
-
-        .nav-links a:hover {
-            color: var(--color-tierra);
-        }
-
-        /* --- HERO --- */
-        .hero {
-            height: 50vh;
-            margin: 20px;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            color: var(--blanco);
-            border-radius: var(--curva-grande);
-            overflow: hidden;
-        }
-
-        .hero-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            z-index: -1;
-            filter: brightness(0.8);
-        }
-
-        .hero h1 {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: clamp(32px, 5vw, 60px);
-            margin-bottom: 15px;
-            font-style: italic;
-            color: var(--color-arena);
-        }
-
-        /* --- BARRA DE RESERVA --- */
-        .barra-reserva {
-            background: var(--blanco);
-            padding: 15px 30px;
-            display: flex;
-            gap: 20px;
-            align-items: center;
-            border-radius: 100px;
-            box-shadow: 0 15px 35px rgba(140, 115, 101, 0.15);
-            max-width: 900px;
-            width: 90%;
-            margin-top: -50px;
-            /* Se solapa un poco con el hero */
-            position: relative;
-            z-index: 10;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .campo {
-            display: flex;
-            flex-direction: column;
-            flex: 1;
-            padding: 5px 10px;
-            border-right: 1px solid #f0f0f0;
-        }
-
-        .campo:last-of-type {
-            border-right: none;
-        }
-
-        .campo label {
-            font-size: 10px;
-            text-transform: uppercase;
-            color: var(--color-tierra);
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-
-        .campo input,
-        .campo select {
-            border: none;
-            background: none;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 14px;
-            outline: none;
-            color: var(--texto);
-        }
-
-        .btn-reserva {
-            background-color: var(--color-tierra);
-            color: var(--blanco);
-            border: none;
-            padding: 14px 28px;
-            border-radius: 100px;
-            cursor: pointer;
-            font-weight: 500;
-            font-size: 14px;
-            transition: all 0.3s;
-        }
-
-        .btn-reserva:hover {
-            background-color: #725d52;
-            transform: scale(1.03);
-        }
-
-        /* --- SECCIONES --- */
-        .seccion-texto {
-            padding: 100px 10% 60px;
-            text-align: center;
-        }
-
-        .seccion-texto h2 {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 38px;
-            color: var(--color-tierra);
-            margin-bottom: 20px;
-        }
-
-        .grid-habitaciones {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 40px;
-            padding: 0 10% 100px;
-        }
-
-        .tarjeta-habitacion {
-            border-radius: var(--curva-media);
-            overflow: hidden;
-        }
-
-        .tarjeta-habitacion img {
-            width: 100%;
-            height: 280px;
-            object-fit: cover;
-        }
-
-        .tarjeta-contenido {
-            padding: 30px;
-        }
-
-        .tarjeta-contenido h3 {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 24px;
-            margin-bottom: 10px;
-        }
-
-        .tarjeta-contenido p {
-            font-size: 14px;
-            color: #666;
-            margin-bottom: 20px;
-        }
-
-        .link-mas {
-            color: var(--color-tierra);
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 13px;
-            border-bottom: 2px solid #e9c46a;
-        }
-
-        /* --- FOOTER --- */
-        footer {
-            background: var(--color-suave);
-            padding: 80px 10% 40px;
-            text-align: center;
-            border-radius: var(--curva-grande) var(--curva-grande) 0 0;
-        }
-
-        .footer-logo {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 30px;
-            color: var(--color-tierra);
-            margin-bottom: 15px;
-            display: block;
-        }
-
-        /* RESPONSIVE */
-        @media (max-width: 850px) {
-            .barra-reserva {
-                flex-direction: column;
-                border-radius: 30px;
-                padding: 25px;
-                width: 85%;
-            }
-
-            .campo {
-                border-right: none;
-                border-bottom: 1px solid #f0f0f0;
-                width: 100%;
-                padding: 10px 0;
-            }
-
-            header.nav-container {
-                padding: 0 5%;
-            }
-
-            .nav-links {
-                display: none;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
 
     <header class="nav-container">
-        <a href="#" class="logo">Hotel</a>
+        <a href="#" class="logo">Costa Dorada</a>
         <nav class="nav-links">
             <a href="#habitaciones">Nuestras Habitaciones</a>
             <a href="#hotel">El Hotel</a>
@@ -287,34 +24,78 @@
 
     <section class="hero">
         <img class="hero-bg" src="img/hero.png" alt="Familia en la playa">
-        <h1>Bienvenidos a <i>lucia no se que posar</i></h1>
-        <p>lucia no se que posar</p>
+        <h1>Bienvenidos a <i>Costa Dorada</i></h1>
+        <p>Tu refugio junto al mar</p>
     </section>
 
     <div class="barra-reserva">
         <div class="campo">
-            <label>Entrada</label>
-            <input type="date" value="2026-08-10">
+            <label>Fechas</label>
+            <div class="sub-campo">
+                <input type="text" id="input-fechas" placeholder="Entrada y salida" readonly>
+                <svg onclick="mostrarCalendari()" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="1.5">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                </svg>
+            </div>
         </div>
         <div class="campo">
-            <label>Salida</label>
-            <input type="date" value="2026-08-17">
+            <label>Tipo de Habitación</label>
+            <select id="select-habitacion">
+                <option value="">Selecciona una opción</option>
+                <option value="suite">Suite</option>
+                <option value="doble-vistas">Doble con Vistas</option>
+                <option value="individual">Individual</option>
+                <option value="familiar">Familiar</option>
+            </select>
         </div>
         <div class="campo">
             <label>Personas</label>
-            <select>
-                <option>2 Adultos + 1 Niño</option>
-                <option selected>2 Adultos + 2 Niños</option>
-                <option>Más de 4 personas</option>
+            <select id="select-personas">
+                <option selected>Escoge personas</option>
+                <option>2 Adultos</option>
+                <option>1 Adulto</option>
             </select>
         </div>
-        <button class="btn-reserva">Reservar estancia</button>
+        <button class="btn-reserva">Buscar</button>
+    </div>
+
+    <!-- Container del Calendario (Oculto por defecto) -->
+    <div id="calendari" class="calendar-wrapper" style="display: none;">
+        <button onclick="cerrarCalendario()" style="padding-left: 95%; padding-bottom: 20px; border: none; background-color: transparent; cursor: pointer;">X</button>
+        <div class="calendar-header">
+            <button class="prev-month" onclick="canviarMes('enrrere')">‹</button>
+            <h3 class="month-title" id="title-month"></h3>
+            <button class="next-month" onclick="canviarMes('davant')">›</button>
+        </div>
+
+        <table class="calendar-table">
+            <thead>
+                <tr>
+                    <th>Dill</th>
+                    <th>Dima</th>
+                    <th>Dime</th>
+                    <th>Dij</th>
+                    <th>Div</th>
+                    <th>Diss</th>
+                    <th>Diu</th>
+                </tr>
+            </thead>
+
+            <tbody id="calendar-body">
+
+            </tbody>
+        </table>
     </div>
 
     <main>
         <section class="seccion-texto" id="hotel">
             <h2>Mucho más que un hotel</h2>
-            <p>lucia no se que posar</p>
+            <p>Descubre un oasis de tranquilidad donde el confort se encuentra con la belleza del Mediterráneo. Nuestras
+                instalaciones están diseñadas para que disfrutes de unas vacaciones inolvidables junto a tu familia.</p>
         </section>
 
         <section class="grid-habitaciones" id="habitaciones">
@@ -342,49 +123,21 @@
     </main>
 
     <footer id="contacto">
-        <span class="footer-logo">Hotel</span>
-        <p>Estamos en no se que posar, esperándoos con los brazos abiertos.</p>
+        <span class="footer-logo">Costa Dorada</span>
+        <p>Estamos en Passeig Marítim, 123 - Salou, Tarragona, esperándoos con los brazos abiertos.</p>
         <div style="margin-top: 40px; font-size: 11px; color: var(--color-tierra); letter-spacing: 1px;">
-            © 2026 HOTEL &middot; VACACIONES EN FAMILIA
+            © 2026 COSTA DORADA HOTEL &middot; VACACIONES EN FAMILIA
         </div>
     </footer>
 
-    <!-- Container del Calendario (Oculto por defecto) -->
-    <div id="calendari" class="calendar-wrapper" style="display: none;">
-        <div class="calendar-header">
-            <button class="prev-month" onclick="canviarMes('enrrere')">‹</button>
-            <h3 class="month-title" id="title-month"></h3>
-            <button class="next-month" onclick="canviarMes('davant')">›</button>
-        </div>
 
-        <table class="calendar-table">
-            <thead>
-                <tr>
-                    <th>Dill</th>
-                    <th>Dima</th>
-                    <th>Dime</th>
-                    <th>Dij</th>
-                    <th>Div</th>
-                    <th>Diss</th>
-                    <th>Diu</th>
-                </tr>
-            </thead>
-
-            <tbody id="calendar-body">
-
-            </tbody>
-        </table>
-    </div>
 
     <!-- Script del Calendario -->
     <script src="js/script.js"></script>
 
 
-    <!-- Link a estilos del calendario (añadido aqui para asegurar path relativo correcto) -->
-    <link rel="stylesheet" href="css/style.css">
-
     <!-- Script de Integración (Embedded) -->
-    <script>
+    <!-- <script>
         document.addEventListener('DOMContentLoaded', () => {
 
             // 1. INICIALIZACIÓN
@@ -479,7 +232,7 @@
                 pintarSeleccion();
             }
         });
-    </script>
+    </script> -->
 </body>
 
 </html>

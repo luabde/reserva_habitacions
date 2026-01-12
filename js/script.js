@@ -70,7 +70,7 @@ class Usuario{
 function mostrarCalendari(){
     const div = document.getElementById("calendari");
     const tbody = document.getElementById("calendar-body");
-    
+
 
     // Por defecto en el calendario, se mostrara el mes en el que nos encontramos por eso obtendremos la fecha de hoy
     const fecha = new Date();
@@ -170,7 +170,7 @@ function generarCalendari(mes, any){
 
         calendario.push(fila);
     }
-    
+
 
     let tabla = "";
     // Después en base al array bidimensional se va a generar el tbody donde se mostrara el calendario en la interfaz gráfica
@@ -219,26 +219,31 @@ function seleccionarDia(dia){
             localStorage.removeItem("checkin");
             localStorage.removeItem("checkout");
             console.log("Checkin eliminado");
-            // return;
+            pintarSeleccion();
+            actualizarInputFechas();
+            return;
         }
         // 2. Si la fecha seleccionada es ANTES → reemplazar checkin
-        if (compararFechas < 0) {
+        else if (compararFechas < 0) {
             localStorage.setItem("checkin", fechaSeleccionada);
+            localStorage.removeItem("checkout"); // Limpiar checkout al cambiar checkin
             console.log("Nuevo checkin:", fechaSeleccionada);
-            // return;
+            pintarSeleccion();
+            actualizarInputFechas();
+            return;
         }
-
         // 3. Si la fecha seleccionada es DESPUÉS → guardar checkout
-        if (compararFechas > 0) {
+        else if (compararFechas > 0) {
             localStorage.setItem("checkout", fechaSeleccionada);
             console.log("Checkout seleccionado:", fechaSeleccionada);
-            // return;
+            pintarSeleccion();
+            actualizarInputFechas();
+            return;
         }
-
     }
 
     pintarSeleccion();
-
+    actualizarInputFechas();
 }
 
 function esAntes(fin, fout){
@@ -265,42 +270,86 @@ function pintarSeleccion(){
     let checkin = localStorage.getItem("checkin") ?? null;
     let checkout = localStorage.getItem("checkout") ?? null;
 
+    const tbody = document.getElementById("calendar-body");
+
+    // Obtener mes y año del calendario actual
+    const title = document.getElementById("title-month").innerText;
+    let partes = title.split(" ");
+    let mesNombre = partes[0];
+    let año = partes[1];
+
+    const meses = ["Gener", "Febrer", "Març", "Abril", "Maig", "Juny", "Juliol", "Agost", "Septembre", "Octubre", "Novembre", "Desembre"];
+    let mes = meses.indexOf(mesNombre);
+
+    // Limpiar todas las selecciones primero
+    for (let i = 0; i < tbody.rows.length; i++) {
+        let fila = tbody.rows[i];
+        for (let j = 0; j < fila.cells.length; j++) {
+            let celda = fila.cells[j];
+            celda.classList.remove("selected");
+        }
+    }
+
+    // Si no hay checkin, no hay nada que pintar
     if (checkin === null) return;
 
     const [dIn, mIn, aIn] = checkin.split("/");
 
-    if(checkout === null) return;
-    const [dOut, mOut, aOut] = checkout.split("/")
-    
-
-    // Obtenemos el recuadro de los dias y añadiremos la classe selected a los que han estado seleccionado
-    const tbody = document.getElementById("calendar-body");
-
+    // Pintar checkin
     for (let i = 0; i < tbody.rows.length; i++) {
         let fila = tbody.rows[i];
-
         for (let j = 0; j < fila.cells.length; j++) {
             let celda = fila.cells[j];
-
-            // Saltar celdas vacías
             if (celda.className === "empty") continue;
 
             let diaTd = celda.innerText;
-
-            // Limpiar antes de pintar
-            celda.classList.remove("selected");
 
             // Pintar checkin
             if (diaTd == dIn && mes == mIn && año == aIn) {
                 celda.classList.add("selected");
             }
-
-            // Pintar checkout
-            if (diaTd == dOut && mes == mOut && año == aOut) {
-                celda.classList.add("selected");
-            }
         }
     }
 
+    // Si hay checkout, también pintarlo
+    if (checkout !== null) {
+        const [dOut, mOut, aOut] = checkout.split("/");
+
+        for (let i = 0; i < tbody.rows.length; i++) {
+            let fila = tbody.rows[i];
+            for (let j = 0; j < fila.cells.length; j++) {
+                let celda = fila.cells[j];
+                if (celda.className === "empty") continue;
+
+                let diaTd = celda.innerText;
+
+                // Pintar checkout
+                if (diaTd == dOut && mes == mOut && año == aOut) {
+                    celda.classList.add("selected");
+                }
+            }
+        }
+    }
 }
 
+// Función para actualizar el input visual con las fechas seleccionadas
+function actualizarInputFechas() {
+    const inputFechas = document.getElementById('input-fechas');
+
+    const checkin = localStorage.getItem("checkin");
+    const checkout = localStorage.getItem("checkout");
+
+    if (checkin && checkout) {
+        inputFechas.value = `${checkin} - ${checkout}`;
+    } else if (checkin) {
+        inputFechas.value = checkin;
+    } else {
+        inputFechas.value = '';
+    }
+}
+
+
+function cerrarCalendario(){
+    const calendario = document.getElementById("calendari");
+    calendario.style.display = "none";
+}

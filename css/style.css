@@ -1,16 +1,309 @@
-.calendar-wrapper {
+:root {
+    --color-arena: #fdfaf5;
+    --color-tierra: #8c7365;
+    --color-suave: #f4eee8;
+    --texto: #4a4a4a;
+    --blanco: #ffffff;
+    --curva-media: 25px;
+    --curva-grande: 60px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--color-arena);
+    color: var(--texto);
+    font-family: 'Montserrat', sans-serif;
+    padding-top: 75px;
+    /* Espacio para que el menú fijo no tape el contenido */
+    line-height: 1.6;
+}
+
+/* --- HEADER ESTÁTICO (FIXED) --- */
+header.nav-container {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 75px;
+    background-color: var(--color-arena);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 8%;
+    z-index: 2000;
+    box-shadow: 0 15px 35px rgba(140, 115, 101, 0.15);
+}
+
+.logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--color-tierra);
+    text-decoration: none;
+    letter-spacing: 1px;
+}
+
+.nav-links {
+    display: flex;
+    gap: 35px;
+}
+
+.nav-links a {
+    color: var(--texto);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+.nav-links a:hover {
+    color: var(--color-tierra);
+}
+
+/* --- HERO --- */
+.hero {
+    height: 50vh;
+    margin: 20px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: var(--blanco);
+    border-radius: var(--curva-grande);
+    overflow: hidden;
+}
+
+.hero-bg {
     position: absolute;
-    top: 90px;
+    top: 0;
     left: 0;
-    width: 300px;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+    filter: brightness(0.8);
+}
+
+.hero h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(32px, 5vw, 60px);
+    margin-bottom: 15px;
+    font-style: italic;
+    color: var(--color-arena);
+}
+
+/* --- BARRA DE RESERVA --- */
+.barra-reserva {
+    background: var(--blanco);
+    padding: 15px 30px;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    border-radius: 100px;
+    box-shadow: 0 15px 35px rgba(140, 115, 101, 0.15);
+    max-width: 900px;
+    width: 90%;
+    margin-top: -50px;
+    /* Se solapa un poco con el hero */
+    position: relative;
+    z-index: 10;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.campo {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: 5px 10px;
+    border-right: 1px solid #f0f0f0;
+}
+
+.campo:last-of-type {
+    border-right: none;
+}
+
+.campo label {
+    font-size: 10px;
+    text-transform: uppercase;
+    color: var(--color-tierra);
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.campo input,
+.campo select {
+    border: none;
+    background: none;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    outline: none;
+    color: var(--texto);
+    flex: 1;
+}
+
+/* Contenedor de input con icono */
+.sub-campo {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Estilos para el icono del calendario SVG */
+.campo svg {
+    width: 20px;
+    height: 20px;
+    fill: var(--color-tierra);
+    cursor: pointer;
+    transition: fill 0.3s;
+    opacity: 0.7;
+    flex-shrink: 0;
+}
+
+.campo svg:hover {
+    opacity: 1;
+}
+
+.btn-reserva {
+    background-color: var(--color-tierra);
+    color: var(--blanco);
+    border: none;
+    padding: 14px 28px;
+    border-radius: 100px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 14px;
+    transition: all 0.3s;
+}
+
+.btn-reserva:hover {
+    background-color: #725d52;
+    transform: scale(1.03);
+}
+
+/* --- SECCIONES --- */
+.seccion-texto {
+    padding: 100px 10% 60px;
+    text-align: center;
+}
+
+.seccion-texto h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 38px;
+    color: var(--color-tierra);
+    margin-bottom: 20px;
+}
+
+.grid-habitaciones {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 40px;
+    padding: 10px;
+}
+
+.tarjeta-habitacion {
+    border-radius: var(--curva-media);
+    overflow: hidden;
+}
+
+.tarjeta-habitacion img {
+    width: 100%;
+    height: 280px;
+    object-fit: cover;
+}
+
+.tarjeta-contenido {
+    padding: 30px;
+}
+
+.tarjeta-contenido h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.tarjeta-contenido p {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.link-mas {
+    color: var(--color-tierra);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 13px;
+    border-bottom: 2px solid #e9c46a;
+}
+
+/* --- FOOTER --- */
+footer {
+    background: var(--color-suave);
+    padding: 80px 10% 40px;
+    text-align: center;
+    border-radius: var(--curva-grande) var(--curva-grande) 0 0;
+}
+
+.footer-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 30px;
+    color: var(--color-tierra);
+    margin-bottom: 15px;
+    display: block;
+}
+
+/* RESPONSIVE */
+@media (max-width: 850px) {
+    .barra-reserva {
+        flex-direction: column;
+        border-radius: 30px;
+        padding: 25px;
+        width: 85%;
+    }
+
+    .campo {
+        border-right: none;
+        border-bottom: 1px solid #f0f0f0;
+        width: 100%;
+        padding: 10px 0;
+    }
+
+    header.nav-container {
+        padding: 0 5%;
+    }
+
+    .nav-links {
+        display: none;
+    }
+
+    .tarjeta-contenido {
+        padding-left: 5px;
+        padding-bottom: 10px;
+    }
+}
+
+.calendar-wrapper {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 320px;
+    max-width: 90vw;
 
     background: white;
     border-radius: 16px;
     padding: 20px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    box-shadow: 0 10px 50px rgba(0, 0, 0, 0.25);
 
     display: none;
-    z-index: 200;
+    z-index: 3000;
 }
 
 .calendar-header {
@@ -72,12 +365,29 @@
     color: white;
 }
 
-.selected {
-    background: #111;
-    color: white;
+.calendar-table td.selected {
+    background: #111 !important;
+    color: white !important;
 }
 
 .range {
     background: #dce4ff;
     color: #111;
+}
+
+.calendar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    display: none;
+    z-index: 2999;
+    backdrop-filter: blur(2px);
+}
+
+.calendar-overlay.active,
+.calendar-wrapper.active {
+    display: block;
 }
