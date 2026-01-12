@@ -93,8 +93,7 @@ body {
     color: var(--blanco);
     border: none;
     padding: 18px 0;
-    border-radius: 2px;
-    /* Menos curvo para verse más premium */
+    border-radius: 100px;
     cursor: pointer;
     font-weight: 500;
     font-size: 13px;
