@@ -1,20 +1,20 @@
 // Clases usadas en la aplicación
 class Hotel {
-    constructor(nombre, habitaciones, usuarios, tipoHabitaciones) {
+    constructor(nombre, usuarios, tipoHabitaciones) {
         this.nombre = nombre;
-        this.habitaciones = habitaciones;
         this.usuarios = usuarios;
         this.tipoHabitaciones = tipoHabitaciones;
     }
 }
 
 class TipoHabitacion {
-    constructor(nombre, descripcion, capacidad, servicios, precioBase) {
+    constructor(nombre, descripcion, capacidad, servicios, precioBase, habitaciones) {
         this._nombre = nombre;
         this._descripcion = descripcion;
         this._capacidad = capacidad;
         this._servicios = servicios;
         this._precioBase = precioBase;
+        this._habitaciones = habitaciones;
     }
 
     // GETTERS
@@ -60,10 +60,8 @@ class TipoHabitacion {
     }
 }
 
-class Habitacion extends TipoHabitacion {
+class Habitacion{
     constructor(id, numero, tipo, urlFotos = []) {
-        // Heredamos las propiedades del tipo
-        super(tipo.nombre, tipo.descripcion, tipo.capacidad, tipo.servicios, tipo.precioBase);
         this.idHab = id;
         this.numero = numero;
         this.urlFotos = urlFotos;
@@ -115,51 +113,61 @@ window.addEventListener("load", () => {
 });
 
 function inicializarDatos() {
-    // 1. Definimos los 4 tipos de habitación originales
-    const suite = new TipoHabitacion("Suite", "Lujo con vistas panorámicas", 2, ["Jacuzzi", "Vistas al mar", "Terraza"], 150);
-    const doble = new TipoHabitacion("Doble", "Habitación estándar confortable", 2, ["TV", "Baño privado", "Escritorio"], 90);
-    const individualPlus = new TipoHabitacion("Individual Plus", "Más espacio y confort individual", 1, ["Cama 105cm", "TV", "Mini nevera"], 70);
-    const premium = new TipoHabitacion("Premium", "Experiencia para dos premium", 2, ["Cama king size", "Cafetera", "Vistas"], 110);
+
+    // 1. Creamos los tipos de habitación con su array vacío
+    const suite = new TipoHabitacion("Suite", "Lujo con vistas panorámicas", 2, ["Jacuzzi", "Vistas al mar", "Terraza"], 150, []);
+    const doble = new TipoHabitacion("Doble", "Habitación estándar confortable", 2, ["TV", "Baño privado", "Escritorio"], 90, []);
+    const individualPlus = new TipoHabitacion("Individual Plus", "Más espacio y confort individual", 1, ["Cama 105cm", "TV", "Mini nevera"], 70, []);
+    const premium = new TipoHabitacion("Premium", "Experiencia para dos premium", 2, ["Cama king size", "Cafetera", "Vistas"], 110, []);
 
     tipoHabitaciones = [suite, doble, individualPlus, premium];
 
-    // 2. Creamos las habitaciones físicas (heredando del tipo)
+    // 2. Creamos las habitaciones físicas (SIN heredar del tipo)
     const habs = [
+
         // SUITES (101-105)
-        new Habitacion(1, 101, suite, ["img/suite1.jpg"]),
-        new Habitacion(2, 102, suite, ["img/suite2.jpg"]),
-        new Habitacion(3, 103, suite, ["img/suite1.jpg"]),
-        new Habitacion(4, 104, suite, ["img/suite2.jpg"]),
-        new Habitacion(5, 105, suite, ["img/suite1.jpg"]),
+        new Habitacion(1, 101, null, ["img/suite1.jpg"]),
+        new Habitacion(2, 102, null, ["img/suite2.jpg"]),
+        new Habitacion(3, 103, null, ["img/suite1.jpg"]),
+        new Habitacion(4, 104, null, ["img/suite2.jpg"]),
+        new Habitacion(5, 105, null, ["img/suite1.jpg"]),
 
         // DOBLES (201-210)
-        new Habitacion(6, 201, doble, ["img/doble1.jpg"]),
-        new Habitacion(7, 202, doble, ["img/doble2.jpg"]),
-        new Habitacion(8, 203, doble, ["img/doble1.jpg"]),
-        new Habitacion(9, 204, doble, ["img/doble2.jpg"]),
-        new Habitacion(10, 205, doble, ["img/doble1.jpg"]),
-        new Habitacion(11, 206, doble, ["img/doble2.jpg"]),
-        new Habitacion(12, 207, doble, ["img/doble1.jpg"]),
-        new Habitacion(13, 208, doble, ["img/doble2.jpg"]),
-        new Habitacion(14, 209, doble, ["img/doble1.jpg"]),
-        new Habitacion(15, 210, doble, ["img/doble2.jpg"]),
+        new Habitacion(6, 201, null, ["img/doble1.jpg"]),
+        new Habitacion(7, 202, null, ["img/doble2.jpg"]),
+        new Habitacion(8, 203, null, ["img/doble1.jpg"]),
+        new Habitacion(9, 204, null, ["img/doble2.jpg"]),
+        new Habitacion(10, 205, null, ["img/doble1.jpg"]),
+        new Habitacion(11, 206, null, ["img/doble2.jpg"]),
+        new Habitacion(12, 207, null, ["img/doble1.jpg"]),
+        new Habitacion(13, 208, null, ["img/doble2.jpg"]),
+        new Habitacion(14, 209, null, ["img/doble1.jpg"]),
+        new Habitacion(15, 210, null, ["img/doble2.jpg"]),
 
         // INDIVIDUAL PLUS (301-305)
-        new Habitacion(16, 301, individualPlus, ["img/ind1.jpg"]),
-        new Habitacion(17, 302, individualPlus, ["img/ind1.jpg"]),
-        new Habitacion(18, 303, individualPlus, ["img/ind1.jpg"]),
-        new Habitacion(19, 304, individualPlus, ["img/ind1.jpg"]),
-        new Habitacion(20, 305, individualPlus, ["img/ind1.jpg"]),
+        new Habitacion(16, 301, null, ["img/ind1.jpg"]),
+        new Habitacion(17, 302, null, ["img/ind1.jpg"]),
+        new Habitacion(18, 303, null, ["img/ind1.jpg"]),
+        new Habitacion(19, 304, null, ["img/ind1.jpg"]),
+        new Habitacion(20, 305, null, ["img/ind1.jpg"]),
 
         // PREMIUM (401-405)
-        new Habitacion(21, 401, premium, ["img/premium1.jpg"]),
-        new Habitacion(22, 402, premium, ["img/premium1.jpg"]),
-        new Habitacion(23, 403, premium, ["img/premium1.jpg"]),
-        new Habitacion(24, 404, premium, ["img/premium1.jpg"]),
-        new Habitacion(25, 405, premium, ["img/premium1.jpg"])
+        new Habitacion(21, 401, null, ["img/premium1.jpg"]),
+        new Habitacion(22, 402, null, ["img/premium1.jpg"]),
+        new Habitacion(23, 403, null, ["img/premium1.jpg"]),
+        new Habitacion(24, 404, null, ["img/premium1.jpg"]),
+        new Habitacion(25, 405, null, ["img/premium1.jpg"])
     ];
 
-    // 3. Creamos los usuarios
+    // 3. Asignamos cada habitación a su tipo correspondiente
+    habs.forEach(h => {
+        if (h.numero >= 101 && h.numero <= 105) suite._habitaciones.push(h);
+        else if (h.numero >= 201 && h.numero <= 210) doble._habitaciones.push(h);
+        else if (h.numero >= 301 && h.numero <= 305) individualPlus._habitaciones.push(h);
+        else if (h.numero >= 401 && h.numero <= 405) premium._habitaciones.push(h);
+    });
+
+    // 4. Creamos los usuarios
     const usuarios = [
         new Usuario(1, "Lucía Martínez", "lucia@mail.com", "1234", []),
         new Usuario(2, "Carlos Gómez", "carlos@mail.com", "abcd", []),
@@ -169,7 +177,7 @@ function inicializarDatos() {
     ];
 
     // 5. Creamos el hotel
-    const miHotel = new Hotel("Costa Dorada", habs, usuarios, tipoHabitaciones);
+    const miHotel = new Hotel("Costa Dorada", usuarios, tipoHabitaciones);
 
     // 6. Guardamos todo como JSON stringificado
     localStorage.setItem("hotel", JSON.stringify(miHotel));
@@ -178,6 +186,12 @@ function inicializarDatos() {
 var usuarios = [];
 var tipoHabitaciones = [];
 var habitaciones = [];
+var hotel;
 function crearObjetosJSON(){
-    
+    const datos = JSON.parse(localStorage.getItem("hotal"));
+
+    // 1. Reconstruir los usuarios
+    usuarios = datos.usuarios.map( u =>{
+        new Usuario(u.id, u.nombreCompleto)
+    });
 }
