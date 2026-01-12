@@ -1,355 +1,219 @@
 // Clases usadas en la aplicación
-class Habitacion {
-    constructor(idHabitacion, nombre, descripcion, num, noDisponible, servicios, reservada, precioDia, valoraciones, pais){
-        this.idHabitacion = idHabitacion;
+class Hotel {
+    constructor(nombre, usuarios, tipoHabitaciones) {
         this.nombre = nombre;
-        this.descripcion = descripcion;
-        this.num = num;
-        this.noDisponible = noDisponible;
-        this.servicios = servicios;
-        this.reservada = reservada;
-        this.precioDia = precioDia;
-        this.valoraciones = valoraciones;
-        this.pais = pais;
-    }
-
-    // Setters y getters
-
-    set setNum(num){
-        this.num = num;
-    }
-
-    set setReservada(param){
-        this.reservada = param;
-    }
-
-    get getAll(){
-        const all = [this.idHabitacion, this.nombre, this.descripcion, this.num, this.noDisponible, this.servicios, this.reservada, this.precioDia];
-
-        return all;
-    }
-
-
-    // Metodos de la classe
-
-    // Añadir fecha que la habitacion no esta disponible
-    añadirFechaNoDisponible(fecha) {
-        if (!this.noDisponible.includes(fecha)) {
-            this.noDisponible.push(fecha);
-        }
-    }
-
-    // Calcula el precio total que cuesta la habitacion segun el precio y los dias de la estancia
-    calcularPrecioTotal( diasTotales){
-        const total = this.precioDia * diasTotales;
-        return total;
+        this.usuarios = usuarios;
+        this.tipoHabitaciones = tipoHabitaciones;
     }
 }
 
-class Usuario{
-    // Habitaciones reservadas sera un objeto con la id de la habitacion con la fecha, precio total y total de dias.
-    constructor(nombre, apellido, DNI, telefono, email, contraseña, habitacionesReservadas){
-        this.nombre = nombre;
-        this.apellido = apellido;
-        this.DNI = DNI;
-        this.telefono = telefono;
+class TipoHabitacion {
+    constructor(nombre, descripcion, capacidad, servicios, precioBase, habitaciones) {
+        this._nombre = nombre;
+        this._descripcion = descripcion;
+        this._capacidad = capacidad;
+        this._servicios = servicios;
+        this._precioBase = precioBase;
+        this._habitaciones = habitaciones;
+    }
+
+    // GETTERS
+    get nombre() {
+        return this._nombre;
+    }
+
+    get descripcion() {
+        return this._descripcion;
+    }
+
+    get capacidad() {
+        return this._capacidad;
+    }
+
+    get servicios() {
+        return this._servicios;
+    }
+
+    get precioBase() {
+        return this._precioBase;
+    }
+
+    // SETTERS
+    set nombre(valor) {
+        this._nombre = valor;
+    }
+
+    set descripcion(valor) {
+        this._descripcion = valor;
+    }
+
+    set capacidad(valor) {
+        this._capacidad = valor;
+    }
+
+    set servicios(valor) {
+        this._servicios = valor;
+    }
+
+    set precioBase(valor) {
+        this._precioBase = valor;
+    }
+}
+
+class Habitacion{
+    constructor(id, numero, urlFotos = []) {
+        this.idHab = id;
+        this.numero = numero;
+        this.urlFotos = urlFotos;
+        this.fechasNoDisponibles = [];
+    }
+
+    añadirFechaNoDisponible(fecha) {
+        this.fechasNoDisponibles.push(fecha);
+    }
+
+    quitarFechaNoDisponible(fecha) {
+        this.fechasNoDisponibles = this.fechasNoDisponibles.filter(f => f !== fecha);
+    }
+}
+
+class Reserva {
+    constructor(id, habitacion, checkin, checkout, diasTotales, precioTotal) {
+        this.id = id;
+        this.habitacion = habitacion;
+        this.checkin = checkin;
+        this.checkout = checkout;
+        this.diasTotales = diasTotales;
+        this.precioTotal = precioTotal;
+    }
+
+    calcularPrecioTotal(dias, precioBase){
+        this.precioTotal = dias * precioBase;
+    }
+}
+
+class Usuario {
+    constructor(id, nombreCompleto, email, contraseña, reservas) {
+        this.id = id;
+        this.nombreCompleto = nombreCompleto;
         this.email = email;
         this.contraseña = contraseña;
-        this.habitacionesReservadas = habitacionesReservadas;
+        this.reservas = reservas;
     }
-
-    // Getters y setters
-
 }
-
 
 // Funciones principales de la aplicación
+window.addEventListener("load", () => {
 
+    // Si no existe el hotel en LocalStorage, lo creamos
+    if (!localStorage.getItem("hotel")) {
+        console.log("Generando datos iniciales del hotel...");
+        inicializarDatos();
+    }
 
-// Funciones para el calendario
-function mostrarCalendari(){
-    const div = document.getElementById("calendari");
-    const tbody = document.getElementById("calendar-body");
+    // Independientemente de si lo acabamos de crear o ya estaba, reconstruimos los objetos
+    crearObjetosJSON();
+});
 
+function inicializarDatos() {
 
-    // Por defecto en el calendario, se mostrara el mes en el que nos encontramos por eso obtendremos la fecha de hoy
-    const fecha = new Date();
-    const any = fecha.getFullYear();
-    const mes = fecha.getMonth();
+    // 1. Creamos los tipos de habitación con su array vacío
+    const suite = new TipoHabitacion("Suite", "Lujo con vistas panorámicas", 2, ["Jacuzzi", "Vistas al mar", "Terraza"], 150, []);
+    const doble = new TipoHabitacion("Doble", "Habitación estándar confortable", 2, ["TV", "Baño privado", "Escritorio"], 90, []);
+    const individualPlus = new TipoHabitacion("Individual Plus", "Más espacio y confort individual", 1, ["Cama 105cm", "TV", "Mini nevera"], 70, []);
+    const premium = new TipoHabitacion("Premium", "Experiencia para dos premium", 2, ["Cama king size", "Cafetera", "Vistas"], 110, []);
 
-    div.style.display = "block";
-    const tabla = generarCalendari(mes, any);
+    tipoHabitaciones = [suite, doble, individualPlus, premium];
 
-    tbody.innerHTML = "";
-    tbody.innerHTML = tabla;
+    // 2. Creamos las habitaciones físicas (SIN heredar del tipo)
+    const habs = [
+
+        // SUITES (101-105)
+        new Habitacion(1, 101, null, ["img/suite1.jpg"]),
+        new Habitacion(2, 102, null, ["img/suite2.jpg"]),
+        new Habitacion(3, 103, null, ["img/suite1.jpg"]),
+        new Habitacion(4, 104, null, ["img/suite2.jpg"]),
+        new Habitacion(5, 105, null, ["img/suite1.jpg"]),
+
+        // DOBLES (201-210)
+        new Habitacion(6, 201, null, ["img/doble1.jpg"]),
+        new Habitacion(7, 202, null, ["img/doble2.jpg"]),
+        new Habitacion(8, 203, null, ["img/doble1.jpg"]),
+        new Habitacion(9, 204, null, ["img/doble2.jpg"]),
+        new Habitacion(10, 205, null, ["img/doble1.jpg"]),
+        new Habitacion(11, 206, null, ["img/doble2.jpg"]),
+        new Habitacion(12, 207, null, ["img/doble1.jpg"]),
+        new Habitacion(13, 208, null, ["img/doble2.jpg"]),
+        new Habitacion(14, 209, null, ["img/doble1.jpg"]),
+        new Habitacion(15, 210, null, ["img/doble2.jpg"]),
+
+        // INDIVIDUAL PLUS (301-305)
+        new Habitacion(16, 301, null, ["img/ind1.jpg"]),
+        new Habitacion(17, 302, null, ["img/ind1.jpg"]),
+        new Habitacion(18, 303, null, ["img/ind1.jpg"]),
+        new Habitacion(19, 304, null, ["img/ind1.jpg"]),
+        new Habitacion(20, 305, null, ["img/ind1.jpg"]),
+
+        // PREMIUM (401-405)
+        new Habitacion(21, 401, null, ["img/premium1.jpg"]),
+        new Habitacion(22, 402, null, ["img/premium1.jpg"]),
+        new Habitacion(23, 403, null, ["img/premium1.jpg"]),
+        new Habitacion(24, 404, null, ["img/premium1.jpg"]),
+        new Habitacion(25, 405, null, ["img/premium1.jpg"])
+    ];
+
+    // 3. Asignamos cada habitación a su tipo correspondiente
+    habs.forEach(h => {
+        if (h.numero >= 101 && h.numero <= 105) suite._habitaciones.push(h);
+        else if (h.numero >= 201 && h.numero <= 210) doble._habitaciones.push(h);
+        else if (h.numero >= 301 && h.numero <= 305) individualPlus._habitaciones.push(h);
+        else if (h.numero >= 401 && h.numero <= 405) premium._habitaciones.push(h);
+    });
+
+    // 4. Creamos los usuarios
+    const usuarios = [
+        new Usuario(1, "Lucía Martínez", "lucia@mail.com", "1234", []),
+        new Usuario(2, "Carlos Gómez", "carlos@mail.com", "abcd", []),
+        new Usuario(3, "María López", "maria.lopez@mail.com", "pass123", []),
+        new Usuario(4, "Javier Ruiz", "javi.ruiz@mail.com", "qwerty", []),
+        new Usuario(5, "Ana Torres", "ana.torres@mail.com", "hotel2024", [])
+    ];
+
+    // 5. Creamos el hotel
+    const miHotel = new Hotel("Costa Dorada", usuarios, tipoHabitaciones);
+
+    // 6. Guardamos todo como JSON stringificado
+    localStorage.setItem("hotel", JSON.stringify(miHotel));
 }
 
-function canviarMes(tipus){
-    const meses = ["Gener", "Febrer", "Març", "Abril", "Maig", "Juny", "Juliol", "Agost", "Septembre", "Octubre", "Novembre", "Desembre"];
+var usuarios = [];
+var tipoHabitaciones = [];
+var hotel;
 
-    let titulo = document.getElementById("title-month").innerText;
+function crearObjetosJSON(){
+    const datos = JSON.parse(localStorage.getItem("hotel"));
 
-    let partes = titulo.split(" ");
-    let mesActual = partes[0];
-    let anyActual = parseInt(partes[1]);
+    // 1. Reconstruir Usuarios (y sus reservas)
+    usuarios = datos.usuarios.map(u => {
+        // Reconstruimos las reservas en caso de que hayan, sino pues sera array vacio
+        const reservasReconstruidas = u.reservas ? u.reservas.map(r => {
+            const reserva = new Reserva(r.id, r.habitacion, r.checkin, r.checkout, r.diasTotales, r.precioTotal);
+            return reserva;
+        }) : [];
+        return new Usuario(u.id, u.nombreCompleto, u.email, u.contraseña, reservasReconstruidas);
+    });
 
-    let indexActual = meses.indexOf(mesActual);
+    // 2. Reconstruir tipo de habitacion y habitaciones de cada tipo
+    tipoHabitaciones = datos.tipoHabitaciones.map(tipo =>{
+        const habitacionesReconstruidas = tipo._habitaciones ? tipo._habitaciones.map(hab =>{
+            return habit = new Habitacion(hab._id, hab._numero, hab._urlFotos);
+        }) : [];
 
-    let nouIndex = indexActual;
-    let nouAny = anyActual;
+        return new TipoHabitacion(tipo._nombre, tipo._descripcion, tipo._capacidad, tipo._servicios, tipo._precioBase, habitacionesReconstruidas);
+    });
 
-    if (tipus === "davant") {
-        if (indexActual === 11) {
-            nouIndex = 0;
-            nouAny++;
-        } else {
-            nouIndex++;
-        }
-    }
+    // 3. Reconstruir el Hotel
+    hotel = new Hotel(datos.nombre, usuarios, tipoHabitaciones);
 
-    if (tipus === "enrrere") {
-        if (indexActual === 0) {
-            nouIndex = 11;
-            nouAny--;
-        } else {
-            nouIndex--;
-        }
-    }
-
-    // Actualitzar els dies del calendari
-    const tbody = document.getElementById("calendar-body");
-    const tabla = generarCalendari(nouIndex, nouAny);
-    tbody.innerHTML = "";
-    tbody.innerHTML = tabla;
-}
-
-function generarCalendari(mes, any){
-    // Primero, se actualiza el h3 con el mes que se le pasa
-    const meses = ["Gener", "Febrer", "Març", "Abril", "Maig", "Juny", "Juliol", "Agost", "Septembre", "Octubre", "Novembre", "Desembre"];
-    const h3 = document.getElementById("title-month");
-
-    const mesActual = meses[mes];
-
-    h3.innerHTML = "";
-    h3.innerHTML = `${mesActual} ${any}`;
-
-    // Retorna el primer dia del mes que se li pasa
-    const primerDia = new Date(any, mes, 1).getDay();
-
-    // Retorna el ultim dia del mes (es a dir que se li suma un al mes, per agafar el 0 que es el dia que va abans del primer dia del més seguent, es a dir l'ultim dia del mes)
-    const diasMes = new Date(any, mes +1, 0).getDate();
-
-    /*
-        En getDay el domingo se trata como el primer dia, es por eso que como en el calendario se trata como el ultimo, se pondra en la ultima posicion que es 6. Y el reto de disas se le resta uno para que se ponga en la columna que queramos
-    */
-    const inicio = primerDia === 0 ? 6 : primerDia -1;
-    let calendario = [];
-    let dia = 1;
-
-    // Primero se genera array bidimensional con todos los dias del mes, ordenados por semanas y dias
-    for(let i = 0; i < 6; i++){
-        // Esto significa las seis semanas de cada mes (maximo son seis semanas cada mes)ç
-        let fila = [];
-        for(let j = 0; j < 7; j++){
-            if(i === 0 && j < inicio){
-                // Cuando nos encontemos en la primera semana y a demás el dia es mas pequeño que el inicio (dia que empieza) se pondra vacio porque el mes aun no ha empezado
-                fila.push("");
-            }else if(dia > diasMes){
-                /*
-                    Cuando nos encontremos en la ultima semana, como puede veriar
-                    el dia en el que finaliza el mes, lo que se hace es subir a la fila
-                    un vacio porque el mes ya ha terminado
-                */
-                fila.push("");
-            }else{
-                // Para el resto de dias se sube el numero de dia
-                fila.push(dia);
-                dia++;
-            }
-        }
-
-        calendario.push(fila);
-    }
-
-
-    let tabla = "";
-    // Después en base al array bidimensional se va a generar el tbody donde se mostrara el calendario en la interfaz gráfica
-    for(let semana of calendario){
-        tabla += "<tr>";
-        for(let dia of semana){
-            if(dia === ""){
-                tabla += `<td class='empty'></td>`;
-            }else{
-                tabla += `<td class='day' onclick="seleccionarDia(${dia})">${dia}</td>`;
-            }
-        }
-        tabla += "</tr>";
-    }
-    return tabla;
-}
-
-function seleccionarDia(dia){
-    // Primero obtenemos el dia el mes y el año
-    const title = document.getElementById("title-month").innerText;
-    let partes = title.split(" ");
-    let mes = partes[0];
-    let año = partes[1];
-
-    const meses = ["Gener", "Febrer", "Març", "Abril", "Maig", "Juny", "Juliol", "Agost", "Septembre", "Octubre", "Novembre", "Desembre"];
-
-    mes = meses.indexOf(mes);
-
-    const fechaSeleccionada = `${dia}/${mes}/${año}`;
-
-    // Obtenir del localStorage el checkin i checkout
-    let checkin = localStorage.getItem("checkin") ?? null
-    let checkout = localStorage.getItem("checkout") ?? null
-
-    // Abans de posar les dates, comprovar que la data seleccionada no sigui menor que la de avui
-
-    if(checkin === null && checkout === null){
-        // Seleccionar checkin
-        localStorage.setItem("checkin", fechaSeleccionada);
-        console.log("Checkin seleccionado: ", fechaSeleccionada);
-    }else{
-        const compararFechas = esAntes(fechaSeleccionada, checkin);
-
-        // 1. Si es la misma fecha → borrar checkin y checkout
-        if (compararFechas === 0) {
-            localStorage.removeItem("checkin");
-            localStorage.removeItem("checkout");
-            console.log("Checkin eliminado");
-            pintarSeleccion();
-            actualizarInputFechas();
-            return;
-        }
-        // 2. Si la fecha seleccionada es ANTES → reemplazar checkin
-        else if (compararFechas < 0) {
-            localStorage.setItem("checkin", fechaSeleccionada);
-            localStorage.removeItem("checkout"); // Limpiar checkout al cambiar checkin
-            console.log("Nuevo checkin:", fechaSeleccionada);
-            pintarSeleccion();
-            actualizarInputFechas();
-            return;
-        }
-        // 3. Si la fecha seleccionada es DESPUÉS → guardar checkout
-        else if (compararFechas > 0) {
-            localStorage.setItem("checkout", fechaSeleccionada);
-            console.log("Checkout seleccionado:", fechaSeleccionada);
-            pintarSeleccion();
-            actualizarInputFechas();
-            return;
-        }
-    }
-
-    pintarSeleccion();
-    actualizarInputFechas();
-}
-
-function esAntes(fin, fout){
-    // Funcion para saber si la fecha de inicio va antes que la fecha seleccionada
-    const partes1 = fin.split("/");
-    const partes2 = fout.split("/");
-
-    const d1 = Number(partes1[0]);
-    const m1 = Number(partes1[1]);
-    const a1 = Number(partes1[2]);
-
-    const d2 = Number(partes2[0]);
-    const m2 = Number(partes2[1]);
-    const a2 = Number(partes2[2]);
-
-    // Comparar por mes año y dia, lo que se hace es restar, para ver si son iguales, mayor o menor
-    if (a1 !== a2) return a1 - a2;
-    if (m1 !== m2) return m1 - m2;
-    return d1 - d2;
-}
-
-function pintarSeleccion(){
-    // Funcion para marcar en el calendario el rango de fechas seleccionados
-    let checkin = localStorage.getItem("checkin") ?? null;
-    let checkout = localStorage.getItem("checkout") ?? null;
-
-    const tbody = document.getElementById("calendar-body");
-
-    // Obtener mes y año del calendario actual
-    const title = document.getElementById("title-month").innerText;
-    let partes = title.split(" ");
-    let mesNombre = partes[0];
-    let año = partes[1];
-
-    const meses = ["Gener", "Febrer", "Març", "Abril", "Maig", "Juny", "Juliol", "Agost", "Septembre", "Octubre", "Novembre", "Desembre"];
-    let mes = meses.indexOf(mesNombre);
-
-    // Limpiar todas las selecciones primero
-    for (let i = 0; i < tbody.rows.length; i++) {
-        let fila = tbody.rows[i];
-        for (let j = 0; j < fila.cells.length; j++) {
-            let celda = fila.cells[j];
-            celda.classList.remove("selected");
-        }
-    }
-
-    // Si no hay checkin, no hay nada que pintar
-    if (checkin === null) return;
-
-    const [dIn, mIn, aIn] = checkin.split("/");
-
-    // Pintar checkin
-    for (let i = 0; i < tbody.rows.length; i++) {
-        let fila = tbody.rows[i];
-        for (let j = 0; j < fila.cells.length; j++) {
-            let celda = fila.cells[j];
-            if (celda.className === "empty") continue;
-
-            let diaTd = celda.innerText;
-
-            // Pintar checkin
-            if (diaTd == dIn && mes == mIn && año == aIn) {
-                celda.classList.add("selected");
-            }
-        }
-    }
-
-    // Si hay checkout, también pintarlo
-    if (checkout !== null) {
-        const [dOut, mOut, aOut] = checkout.split("/");
-
-        for (let i = 0; i < tbody.rows.length; i++) {
-            let fila = tbody.rows[i];
-            for (let j = 0; j < fila.cells.length; j++) {
-                let celda = fila.cells[j];
-                if (celda.className === "empty") continue;
-
-                let diaTd = celda.innerText;
-
-                // Pintar checkout
-                if (diaTd == dOut && mes == mOut && año == aOut) {
-                    celda.classList.add("selected");
-                }
-            }
-        }
-    }
-}
-
-// Función para actualizar el input visual con las fechas seleccionadas
-function actualizarInputFechas() {
-    const inputFechas = document.getElementById('input-fechas');
-
-    const checkin = localStorage.getItem("checkin");
-    const checkout = localStorage.getItem("checkout");
-
-    if (checkin && checkout) {
-        inputFechas.value = `${checkin} - ${checkout}`;
-    } else if (checkin) {
-        inputFechas.value = checkin;
-    } else {
-        inputFechas.value = '';
-    }
-}
-
-
-function cerrarCalendario(){
-    const calendario = document.getElementById("calendari");
-    calendario.style.display = "none";
+    console.log("Sistema reconstruido:", hotel);
 }
