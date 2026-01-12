@@ -1,26 +1,68 @@
 // Clases usadas en la aplicación
 class Hotel {
-    constructor(nombre, habitaciones) {
+    constructor(nombre, habitaciones, usuarios) {
         this.nombre = nombre;
-        this.habitaciones = habitaciones; // Array de objetos Habitacion (que ya incluyen su tipo por herencia)
+        this.habitaciones = habitaciones;
+        this.usuarios = usuarios;
     }
 }
 
 class TipoHabitacion {
-    constructor(id, nombre, descripcion, capacidad, servicios, precioBase) {
-        this.id = id;
-        this.nombre = nombre;
-        this.descripcion = descripcion;
-        this.capacidad = capacidad;
-        this.servicios = servicios;
-        this.precioBase = precioBase;
+    constructor(nombre, descripcion, capacidad, servicios, precioBase) {
+        this._nombre = nombre;
+        this._descripcion = descripcion;
+        this._capacidad = capacidad;
+        this._servicios = servicios;
+        this._precioBase = precioBase;
+    }
+
+    // GETTERS
+    get nombre() {
+        return this._nombre;
+    }
+
+    get descripcion() {
+        return this._descripcion;
+    }
+
+    get capacidad() {
+        return this._capacidad;
+    }
+
+    get servicios() {
+        return this._servicios;
+    }
+
+    get precioBase() {
+        return this._precioBase;
+    }
+
+    // SETTERS
+    set nombre(valor) {
+        this._nombre = valor;
+    }
+
+    set descripcion(valor) {
+        this._descripcion = valor;
+    }
+
+    set capacidad(valor) {
+        this._capacidad = valor;
+    }
+
+    set servicios(valor) {
+        this._servicios = valor;
+    }
+
+    set precioBase(valor) {
+        this._precioBase = valor;
     }
 }
 
 class Habitacion extends TipoHabitacion {
     constructor(id, numero, tipo, urlFotos = []) {
         // Heredamos las propiedades del tipo
-        super(tipo.id, tipo.nombre, tipo.descripcion, tipo.capacidad, tipo.servicios, tipo.precioBase);
+        super(tipo.nombre, tipo.descripcion, tipo.capacidad, tipo.servicios, tipo.precioBase);
         this.idHab = id;
         this.numero = numero;
         this.urlFotos = urlFotos;
@@ -37,23 +79,27 @@ class Habitacion extends TipoHabitacion {
 }
 
 class Reserva {
-    constructor(id, usuario, habitacion, checkin, checkout, diasTotales, precioTotal) {
+    constructor(id, habitacion, checkin, checkout, diasTotales) {
         this.id = id;
-        this.usuario = usuario;         // Usuario que reserva (id)
-        this.habitacion = habitacion;   // Habitación física (objeto o numero)
+        this.habitacion = habitacion;
         this.checkin = checkin;
         this.checkout = checkout;
         this.diasTotales = diasTotales;
         this.precioTotal = precioTotal;
     }
+
+    calcularPrecioTotal(dias, precioBase){
+        this.precioTotal = dias * precioBase;
+    }
 }
 
 class Usuario {
-    constructor(id, nombreCompleto, email, contraseña) {
+    constructor(id, nombreCompleto, email, contraseña, reservas) {
         this.id = id;
         this.nombreCompleto = nombreCompleto;
         this.email = email;
         this.contraseña = contraseña;
+        this.reservas = reservas;
     }
 }
 
@@ -68,10 +114,10 @@ window.addEventListener("load", () => {
 
 function inicializarDatos() {
     // 1. Definimos los 4 tipos de habitación originales
-    const suite = new TipoHabitacion(1, "Suite", "Lujo con vistas panorámicas", 4, ["Jacuzzi", "Vistas al mar", "Terraza"], 150);
-    const doble = new TipoHabitacion(2, "Doble", "Habitación estándar confortable", 2, ["TV", "Baño privado", "Escritorio"], 90);
-    const individualPlus = new TipoHabitacion(3, "Individual Plus", "Más espacio y confort individual", 1, ["Cama 105cm", "TV", "Mini nevera"], 70);
-    const premium = new TipoHabitacion(4, "Premium", "Experiencia superior para dos", 2, ["Cama king size", "Cafetera", "Vistas"], 110);
+    const suite = new TipoHabitacion("Suite", "Lujo con vistas panorámicas", 2, ["Jacuzzi", "Vistas al mar", "Terraza"], 150);
+    const doble = new TipoHabitacion("Doble", "Habitación estándar confortable", 2, ["TV", "Baño privado", "Escritorio"], 90);
+    const individualPlus = new TipoHabitacion("Individual Plus", "Más espacio y confort individual", 1, ["Cama 105cm", "TV", "Mini nevera"], 70);
+    const premium = new TipoHabitacion("Premium", "Experiencia para dos premium", 2, ["Cama king size", "Cafetera", "Vistas"], 110);
 
     // 2. Creamos las habitaciones físicas (heredando del tipo)
     const habs = [
@@ -109,10 +155,19 @@ function inicializarDatos() {
         new Habitacion(25, 405, premium, ["img/premium1.jpg"])
     ];
 
-    // 3. Creamos el hotel
-    const miHotel = new Hotel("Costa Dorada", habs);
+    // 3. Creamos los usuarios
+    const usuarios = [
+        new Usuario(1, "Lucía Martínez", "lucia@mail.com", "1234", []),
+        new Usuario(2, "Carlos Gómez", "carlos@mail.com", "abcd", []),
+        new Usuario(3, "María López", "maria.lopez@mail.com", "pass123", []),
+        new Usuario(4, "Javier Ruiz", "javi.ruiz@mail.com", "qwerty", []),
+        new Usuario(5, "Ana Torres", "ana.torres@mail.com", "hotel2024", [])
+    ];
 
-    // 4. Guardamos todo como JSON stringificado
+    // 5. Creamos el hotel
+    const miHotel = new Hotel("Costa Dorada", habs, usuarios);
+
+    // 6. Guardamos todo como JSON stringificado
     localStorage.setItem("hotel", JSON.stringify(miHotel));
 }
 
