@@ -8,7 +8,6 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500&display=swap"
         rel="stylesheet">
-
     <link rel="stylesheet" href="css/login.css">
 </head>
 
@@ -18,7 +17,7 @@
         <h2>Crea tu cuenta</h2>
         <span class="subtitle">Únete a Costa Dorada</span>
 
-        <form action="login.html" method="GET">
+        <form id="form-register">
             <div class="input-group">
                 <label for="name">Nombre Completo</label>
                 <input type="text" id="name" placeholder="Tu nombre" required>
@@ -42,6 +41,14 @@
 
         <a href="index.html" class="back-link">Volver al inicio</a>
     </div>
+
+    <script src="js/script.js"></script>
+
+    <script>
+        if (document.getElementById("form-register")) {
+            document.getElementById("form-register").addEventListener("submit", registrarUsuario);
+        }
+    </script>
 
 </body>
 

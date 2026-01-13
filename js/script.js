@@ -6,18 +6,18 @@ class Hotel {
         this.tipoHabitaciones = tipoHabitaciones;
     }
 
-    obtenerTipoHabitacion(tipo){
+    obtenerTipoHabitacion(tipo) {
         const tipoHabitacion = this.tipoHabitaciones.filter(hab => hab._nombre === tipo);
 
         return tipoHabitacion;
     }
 
-    obtenerHabDispo(tipo, checkin, checkout){
+    obtenerHabDispo(tipo, checkin, checkout) {
         // Creamos el rango de fechas que se quiere reservar
 
         // Obtenemos las fechas que no estan disponibles de cada habitacion y nos aseguramos de que esa habitacion esta dispobible
         const tipoHab = this.obtenerTipoHabitacion(tipo);
-        for(let habitacion of tipoHab[0]._habitaciones){
+        for (let habitacion of tipoHab[0]._habitaciones) {
             console.log("Habitacion: ", habitacion);
         }
     }
@@ -77,7 +77,7 @@ class TipoHabitacion {
     }
 }
 
-class Habitacion{
+class Habitacion {
     constructor(id, numero, urlFotos = []) {
         this.idHab = id;
         this.numero = numero;
@@ -104,7 +104,7 @@ class Reserva {
         this.precioTotal = precioTotal;
     }
 
-    calcularPrecioTotal(dias, precioBase){
+    calcularPrecioTotal(dias, precioBase) {
         this.precioTotal = dias * precioBase;
     }
 }
@@ -207,7 +207,7 @@ var usuarios = [];
 var tipoHabitaciones = [];
 var hotel;
 
-function crearObjetosJSON(){
+function crearObjetosJSON() {
     const datos = JSON.parse(localStorage.getItem("hotel"));
 
     // 1. Reconstruir Usuarios (y sus reservas)
@@ -221,8 +221,8 @@ function crearObjetosJSON(){
     });
 
     // 2. Reconstruir tipo de habitacion y habitaciones de cada tipo
-    tipoHabitaciones = datos.tipoHabitaciones.map(tipo =>{
-        const habitacionesReconstruidas = tipo._habitaciones ? tipo._habitaciones.map(hab =>{
+    tipoHabitaciones = datos.tipoHabitaciones.map(tipo => {
+        const habitacionesReconstruidas = tipo._habitaciones ? tipo._habitaciones.map(hab => {
             return habit = new Habitacion(hab.idHab, hab.numero, hab.urlFotos);
         }) : [];
 
@@ -252,10 +252,86 @@ function buscarHabitacio() {
     console.log("personas:", numPersonas);
 
     // Nos aseguramos de que todos los campos de la búsqueda esten completos
-    if(!checkin || !checkout || !tipo || !numPersonas || tipo === "Selecciona una opción" || numPersonas === "Escoge personas"){
+    if (!checkin || !checkout || !tipo || !numPersonas || tipo === "Selecciona una opción" || numPersonas === "Escoge personas") {
         alert("Es obligatorio seleccionar todos los campos para la búsqueda");
         return;
     }
 
     hotel.obtenerHabDispo(tipo, checkin, checkout);
+}
+
+// Login
+function loginUsuario(e) {
+    e.preventDefault();
+
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value.trim();
+
+    // Buscar el usuario en los objetos reales
+    const usuario = usuarios.find(
+        u => u.email === email && u.contraseña === password
+    );
+
+    if (!usuario) {
+        alert("Email o contraseña incorrectos");
+        return;
+    }
+
+    // Guardamos solo el id del usuario logueado
+    localStorage.setItem("usuarioLogueado", JSON.stringify({ id: usuario.id }));
+    window.location.href = "index.html";
+}
+
+// Registro
+function registrarUsuario(e) {
+    e.preventDefault();
+
+    const nombre = document.getElementById("name").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const pass = document.getElementById("password").value.trim();
+    const pass2 = document.getElementById("confirm-password").value.trim();
+
+    if (pass !== pass2) {
+        alert("Las contraseñas no coinciden");
+        return;
+    }
+
+    // Comprobar si ya existe el email
+    if (usuarios.some(u => u.email === email)) {
+        alert("Email ya registrado");
+        return;
+    }
+
+    // Crear objeto Usuario
+    const nuevoUsuario = new Usuario(
+        usuarios.length + 1,
+        nombre,
+        email,
+        pass,
+        []
+    );
+
+    // Añadir al array de usuarios y actualizar el hotel
+    usuarios.push(nuevoUsuario);
+    hotel.usuarios = usuarios;
+
+    // Guardar en localStorage
+    localStorage.setItem("hotel", JSON.stringify(hotel));
+
+    alert("Usuario registrado correctamente");
+    window.location.href = "login.html";
+}
+
+// Obtener usuario logueado
+function obtenerUsuarioLogueado() {
+    const data = JSON.parse(localStorage.getItem("usuarioLogueado"));
+    if (!data) return null;
+
+    return usuarios.find(u => u.id === data.id);
+}
+
+// Cerrar sesión
+function cerrarSesion() {
+    localStorage.removeItem("usuarioLogueado");
+    window.location.href = "login.html";
 }
