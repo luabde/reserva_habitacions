@@ -440,4 +440,58 @@ function renderizarResultados() {
 // Cargar detalles en habitacion.html
 function cargarDetalleHabitacion() {
 
+
+    // 2. Recuperar ID de habitación y Tipo seleccionado
+    const habId = localStorage.getItem("habitacionSeleccionada");
+    let tipoNombre = JSON.parse(localStorage.getItem("tipoSeleccionado"));
+
+    if (!tipoNombre) {
+        console.error("No hay tipo de habitación seleccionado.");
+        return;
+    }
+
+    // 3. Buscar el tipo de habitación en el hotel
+    const tipo = hotel.tipoHabitaciones.find(t => t._nombre === tipoNombre);
+    if (!tipo) return;
+
+    // 4. Buscar la habitación específica (si viene de búsqueda) o la primera (si viene de index)
+    let habitacionActual = null;
+    habitacionActual = tipo._habitaciones.find(h => h.idHab == habId);
+    
+
+    // 5. Rellenar Información General
+    const titulo = document.getElementById("habitacion-titulo");
+    const cant = document.getElementById("cantidadPersonas");
+    const descr = document.getElementById("descr");
+
+    titulo.innerHTML = tipo._nombre;
+    cant.innerHTML = tipo._capacidad;
+    descr.innerHTML = tipo._descripcion;
+
+    // 6. Cargar Galería
+    const fotoPrincipal = document.getElementById("foto-principal");
+    const fortosecundaria1 = document.getElementById("foto-secundaria1");
+    const fortosecundaria2 = document.getElementById("foto-secundaria2");
+
+    if (habitacionActual && habitacionActual.urlFotos && habitacionActual.urlFotos.length > 0) {
+        fotoPrincipal.src = habitacionActual.urlFotos[0];
+        fortosecundaria1.src = habitacionActual.urlFotos[1];
+        fortosecundaria2.src = habitacionActual.urlFotos[2];
+    } else {
+        // Placeholder si no hay fotos
+        fotoPrincipal.src = `<img src="https://images.unsplash.com/photo-1566665797739-1674de7a421a?q=80&w=1974&auto=format&fit=crop" alt="Habitación">`;
+    }
+
+    // 7. Cargar Servicios
+    const contenedorServicios = document.getElementById("contenedor-servicios");
+    contenedorServicios.innerHTML = "";
+    tipo._servicios.forEach(ser => {
+        const div = document.createElement("div");
+        div.className = "servicio-item";
+        div.innerHTML = `<div><h3>${ser}</h3><p>Servicio incluido</p></div>`;
+        contenedorServicios.appendChild(div);
+    });
+
+    // Falta autocompletar la reserva
+
 }
