@@ -5,6 +5,23 @@ class Hotel {
         this.usuarios = usuarios;
         this.tipoHabitaciones = tipoHabitaciones;
     }
+
+    obtenerTipoHabitacion(tipo){
+        const tipoHabitacion = this.tipoHabitaciones.filter(hab => hab._nombre === tipo);
+
+        return tipoHabitacion;
+    }
+
+    obtenerHabDispo(tipo, checkin, checkout){
+        // Creamos el rango de fechas que se quiere reservar
+
+        // Obtenemos las fechas que no estan disponibles de cada habitacion y nos aseguramos de que esa habitacion esta dispobible
+        const tipoHab = this.obtenerTipoHabitacion(tipo);
+        for(let habitacion of tipoHab[0]._habitaciones){
+            console.log("Habitacion: ", habitacion);
+        }
+    }
+
 }
 
 class TipoHabitacion {
@@ -206,7 +223,7 @@ function crearObjetosJSON(){
     // 2. Reconstruir tipo de habitacion y habitaciones de cada tipo
     tipoHabitaciones = datos.tipoHabitaciones.map(tipo =>{
         const habitacionesReconstruidas = tipo._habitaciones ? tipo._habitaciones.map(hab =>{
-            return habit = new Habitacion(hab._id, hab._numero, hab._urlFotos);
+            return habit = new Habitacion(hab.idHab, hab.numero, hab.urlFotos);
         }) : [];
 
         return new TipoHabitacion(tipo._nombre, tipo._descripcion, tipo._capacidad, tipo._servicios, tipo._precioBase, habitacionesReconstruidas);
@@ -219,19 +236,26 @@ function crearObjetosJSON(){
 
 // Funcions per les habitacions
 
-function buscarHabitacio(){
-    const fechas = document.getElementById("input-fechas");
-    const tipoB = document.getElementById("select-habitacion");
-    const personasB = document.getElementById("select-personas");
+function buscarHabitacio() {
+    const fechas = document.getElementById("input-fechas").value;
+    const tipo = document.getElementById("select-habitacion").value;
+    const personas = document.getElementById("select-personas").value;
 
-    const [checkin, out] = fechas.split("-");
+    // separar fechas
+    const [checkin, checkout] = fechas.split(" - ");
 
-    let tipo = tipoB.map(t => {
-        if (t.selected) return t;
-    });
+    // personas viene como "2 personas" → nos quedamos con el número
+    const numPersonas = personas.split(" ")[0];
 
-    let personas = personasB.map(p =>{
-        
-    });
+    console.log("Check in:", checkin, "checkout:", checkout);
+    console.log("TIPO:", tipo);
+    console.log("personas:", numPersonas);
 
+    // Nos aseguramos de que todos los campos de la búsqueda esten completos
+    if(!checkin || !checkout || !tipo || !numPersonas || tipo === "Selecciona una opción" || numPersonas === "Escoge personas"){
+        alert("Es obligatorio seleccionar todos los campos para la búsqueda");
+        return;
+    }
+
+    hotel.obtenerHabDispo(tipo, checkin, checkout);
 }
