@@ -194,8 +194,14 @@ window.addEventListener("load", () => {
     let pagina = window.location.href.split("/");
     pagina = pagina[pagina.length -1];
 
-    if(pagina === "habitacion.html"){
+    if(pagina === "habitacion.html" || pagina === "habitacionDetalles.html"){
+        // Cuando sea la pagina sea habitaicon.html o habitacionDetalles se renderiza resultados, que es todo lo de la pagina
         renderizarResultados();
+    }
+
+    if(pagina === "habitacion.html"){
+        // Cuando solo sea habitacion.html es que es el html que se abre cuando se busca el hotel, y como no solo son detalles se tiene que completar la info para reservar
+        actualizaerDetallesReserva();
     }
 });
 
@@ -335,7 +341,7 @@ function buscarHabitacio() {
 
     hotel.obtenerHabDispo(tipo, checkin, checkout, numPersonas);
 
-    window.location.href = "resultadoBuscar.html";
+    window.location.href = "html/resultadoBuscar.html";
 }
 
 // Cerrar sesión
@@ -492,6 +498,17 @@ function renderizarResultados() {
         div.innerHTML = `<div><h3>${ser}</h3><p>Servicio incluido</p></div>`;
         contenedorServicios.appendChild(div);
     });
+}
 
-    // Falta autocompletar la reserva
+function actualizaerDetallesReserva(){
+    const habId = localStorage.getItem("habitacionSeleccionada");
+    let tipoNombre = JSON.parse(localStorage.getItem("tipoSeleccionado"));
+
+    if (!tipoNombre) {
+        console.error("No hay tipo de habitación seleccionado.");
+        return;
+    }
+
+    // 3. Buscar el tipo de habitación en el hotel
+    const tipo = hotel.tipoHabitaciones.find(t => t._nombre === tipoNombre);
 }

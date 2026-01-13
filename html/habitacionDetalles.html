@@ -16,12 +16,12 @@
 <body>
 
     <header class="nav-container">
-        <a href="index.html" class="logo">Costa Dorada</a>
+        <a href="../index.html" class="logo">Costa Dorada</a>
         <nav class="nav-links">
-            <a href="index.html#habitaciones">Nuestras Habitaciones</a>
-            <a href="index.html#hotel">El Hotel</a>
-            <a href="index.html#contacto">Contacto</a>
-            <a href="login.html" class="btn-login-header">Login</a>
+            <a href="../index.html#habitaciones">Nuestras Habitaciones</a>
+            <a href="../index.html#hotel">El Hotel</a>
+            <a href="../index.html#contacto">Contacto</a>
+            <a href="login.html" class="btn-login-header" id="btn-login">Login</a>
         </nav>
     </header>
 
@@ -29,13 +29,13 @@
     <section class="galeria-principal">
         <div class="imagen-grande">
             <img src="https://images.unsplash.com/photo-1566665797739-1674de7a421a?q=80&w=1974&auto=format&fit=crop"
-                alt="Suite principal">
+                alt="Suite principal" id="foto-principal">
         </div>
         <div class="imagenes-secundarias">
             <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=2070&auto=format&fit=crop"
-                alt="Vista 2">
+                alt="Vista 2" id="foto-secundaria1">
             <img src="https://images.unsplash.com/photo-1618773928121-c32242e63f39?q=80&w=2070&auto=format&fit=crop"
-                alt="Vista 3">
+                alt="Vista 3" id="foto-secundaria2">
         </div>
     </section>
 
@@ -43,21 +43,21 @@
     <main class="contenedor-detalles">
         <div class="info-principal">
             <div class="breadcrumb">
-                <a href="index.html">Inicio</a> / <a href="index.html#habitaciones">Habitaciones</a> /
-                <span>Suite</span>
+                <a href="../index.html">Inicio</a> / <a href="../index.html#habitaciones">Habitaciones</a> /
+                <span id="breadcrumb-tipo">Suite</span>
             </div>
 
-            <h1>Suite Familiar</h1>
+            <h1 id="habitacion-titulo">Suite Familiar</h1>
             <p class="capacidad">
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
                     stroke="currentColor" stroke-width="2">
                     <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                     <circle cx="12" cy="7" r="4"></circle>
                 </svg>
-                Hasta 4 personas
+                <span id="cantidadPersonas">Hasta 4 personas</span>
             </p>
 
-            <p class="descripcion">
+            <p class="descripcion" id="descr">
                 Amplia suite diseñada especialmente para familias que buscan comodidad y espacios conectados.
                 Disfruta de dos ambientes independientes: una habitación principal con cama king size y una sala de
                 estar con sofá-cama. Perfecta para mantener la privacidad de los padres mientras los niños tienen su
@@ -66,7 +66,7 @@
 
             <div class="servicios-incluidos">
                 <h2>Servicios Incluidos</h2>
-                <div class="grid-servicios">
+                <div class="grid-servicios" id="contenedor-servicios">
                     <div class="servicio-item">
                         <div>
                             <h3>Desayuno buffet</h3>
