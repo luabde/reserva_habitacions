@@ -316,9 +316,18 @@ function buscarHabitacio() {
         return;
     }
 
+    // Guardamos los parámetros de búsqueda para rellenar el formulario después
+    const params = {
+        checkin: checkin,
+        checkout: checkout,
+        personas: numPersonas,
+        tipo: tipo
+    };
+    localStorage.setItem("busquedaParams", JSON.stringify(params));
+
     hotel.obtenerHabDispo(tipo, checkin, checkout, numPersonas);
 
-    window.location.href = "../html/resultadoBuscar.html";
+    window.location.href = "lista_habitaciones.html";
 }
 
 // Cerrar sesión
@@ -421,4 +430,14 @@ function checkLoginState() {
         btnLogin.textContent = "Login";
         btnLogin.href = "login.html";
     }
+}
+
+// Renderizar resultados en lista_habitaciones.html
+function renderizarResultados() {
+
+}
+
+// Cargar detalles en habitacion.html
+function cargarDetalleHabitacion() {
+
 }

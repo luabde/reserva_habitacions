@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Resultados de Búsqueda - Costa Dorada</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/script.js"></script>
+</head>
+
+<body>
+
+    <header class="nav-container">
+        <a href="index.html" class="logo">Costa Dorada</a>
+        <nav class="nav-links">
+            <a href="index.html#habitaciones">Nuestras Habitaciones</a>
+            <a href="index.html#hotel">El Hotel</a>
+            <a href="index.html#contacto">Contacto</a>
+            <a href="login.html" class="btn-login-header" id="btn-login">Login</a>
+        </nav>
+    </header>
+
+    <section class="hero" style="height: 40vh; min-height: 300px;">
+        <img class="hero-bg" src="img/hero.png" alt="Familia en la playa">
+        <h1>Habitaciones Disponibles</h1>
+        <p>Encuentra tu estancia perfecta</p>
+    </section>
+
+    <main>
+        <section class="grid-habitaciones" id="lista-resultados">
+            <!-- Las habitaciones se insertarán aquí dinámicamente con JS -->
+        </section>
+    </main>
+
+    <footer id="contacto">
+        <span class="footer-logo">Costa Dorada</span>
+        <p>Passeig Marítim, 123 · Salou · Tarragona</p>
+        <div style="margin-top: 40px; font-size: 11px; color: var(--color-tierra); letter-spacing: 1px;">
+            © 2026 COSTA DORADA HOTEL · VACACIONES EN FAMILIA
+        </div>
+    </footer>
+
+    <script>
+        // Al cargar la página, renderizamos los resultados
+        window.addEventListener('load', () => {
+            // El script.js ya tiene un listener 'load' global que inicializa objetos, 
+            // así que esperamos un poco o usamos una función específica si es necesario.
+            // Pero como script.js se carga en el head, sus funciones estarán disponibles.
+            // Llamamos a la función que vamos a crear en script.js
+            if (typeof renderizarResultados === 'function') {
+                renderizarResultados();
+            }
+        });
+    </script>
+
+</body>
+
+</html>
