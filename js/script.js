@@ -192,14 +192,14 @@ window.addEventListener("load", () => {
 
     // En el caso de que la pagina se la de la habitacion, se llama a la funcion de renderizar resultado para mostrar dinamicamente la habitacion
     let pagina = window.location.href.split("/");
-    pagina = pagina[pagina.length -1];
+    pagina = pagina[pagina.length - 1];
 
-    if(pagina === "habitacion.html" || pagina === "habitacionDetalles.html"){
+    if (pagina === "habitacion.html" || pagina === "habitacionDetalles.html") {
         // Cuando sea la pagina sea habitaicon.html o habitacionDetalles se renderiza resultados, que es todo lo de la pagina
         renderizarResultados();
     }
 
-    if(pagina === "habitacion.html"){
+    if (pagina === "habitacion.html") {
         // Cuando solo sea habitacion.html es que es el html que se abre cuando se busca el hotel, y como no solo son detalles se tiene que completar la info para reservar
         actualizaerDetallesReserva();
     }
@@ -347,7 +347,8 @@ function buscarHabitacio() {
 // Cerrar sesión
 function cerrarSesion() {
     localStorage.removeItem("usuarioLogueado");
-    window.location.href = "login.html";
+    const esSub = window.location.pathname.includes("/html/");
+    window.location.href = esSub ? "login.html" : "html/login.html";
 }
 
 // Login
@@ -369,7 +370,9 @@ function loginUsuario(e) {
 
     // Guardamos solo el id del usuario logueado
     localStorage.setItem("usuarioLogueado", JSON.stringify({ id: usuario.id }));
-    window.location.href = "index.html";
+
+    const esSub = window.location.pathname.includes("/html/");
+    window.location.href = esSub ? "../index.html" : "index.html";
 }
 
 // Registro
@@ -409,7 +412,8 @@ function registrarUsuario(e) {
     localStorage.setItem("hotel", JSON.stringify(hotel));
 
     alert("Usuario registrado correctamente");
-    window.location.href = "login.html";
+    const esSub = window.location.pathname.includes("/html/");
+    window.location.href = esSub ? "login.html" : "html/login.html";
 }
 
 // Obtener usuario logueado
@@ -418,12 +422,6 @@ function obtenerUsuarioLogueado() {
     if (!data) return null;
 
     return usuarios.find(u => u.id === data.id);
-}
-
-// Cerrar sesión
-function cerrarSesion() {
-    localStorage.removeItem("usuarioLogueado");
-    window.location.href = "login.html";
 }
 
 function checkLoginState() {
@@ -442,7 +440,8 @@ function checkLoginState() {
         });
     } else {
         btnLogin.textContent = "Login";
-        btnLogin.href = "login.html";
+        const esSub = window.location.pathname.includes("/html/");
+        btnLogin.href = esSub ? "login.html" : "html/login.html";
     }
 }
 
@@ -500,7 +499,7 @@ function renderizarResultados() {
     });
 }
 
-function actualizaerDetallesReserva(){
+function actualizaerDetallesReserva() {
     const habId = localStorage.getItem("habitacionSeleccionada");
     let tipoNombre = JSON.parse(localStorage.getItem("tipoSeleccionado"));
 
