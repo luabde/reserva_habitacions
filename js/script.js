@@ -146,38 +146,39 @@ function inicializarDatos() {
     const habs = [
 
         // SUITES (101-105)
-        new Habitacion(1, 101, null, ["img/suite1.jpg"]),
-        new Habitacion(2, 102, null, ["img/suite2.jpg"]),
-        new Habitacion(3, 103, null, ["img/suite1.jpg"]),
-        new Habitacion(4, 104, null, ["img/suite2.jpg"]),
-        new Habitacion(5, 105, null, ["img/suite1.jpg"]),
+        new Habitacion(1, 101, null, ["img/suite1.jpg", "img/suite2.jpg", "img/suite3.jpg"]),
+        new Habitacion(2, 102, null, ["img/suite1.jpg", "img/suite2.jpg", "img/suite3.jpg"]),
+        new Habitacion(3, 103, null, ["img/suite1.jpg", "img/suite2.jpg", "img/suite3.jpg"]),
+        new Habitacion(4, 104, null, ["img/suite1.jpg", "img/suite2.jpg", "img/suite3.jpg"]),
+        new Habitacion(5, 105, null, ["img/suite1.jpg", "img/suite2.jpg", "img/suite3.jpg"]),
 
         // DOBLES (201-210)
-        new Habitacion(6, 201, null, ["img/doble1.jpg"]),
-        new Habitacion(7, 202, null, ["img/doble2.jpg"]),
-        new Habitacion(8, 203, null, ["img/doble1.jpg"]),
-        new Habitacion(9, 204, null, ["img/doble2.jpg"]),
-        new Habitacion(10, 205, null, ["img/doble1.jpg"]),
-        new Habitacion(11, 206, null, ["img/doble2.jpg"]),
-        new Habitacion(12, 207, null, ["img/doble1.jpg"]),
-        new Habitacion(13, 208, null, ["img/doble2.jpg"]),
-        new Habitacion(14, 209, null, ["img/doble1.jpg"]),
-        new Habitacion(15, 210, null, ["img/doble2.jpg"]),
+        new Habitacion(6, 201, null, ["img/doble1.jpg", "img/doble2.jpg", "img/doble3.jpg"]),
+        new Habitacion(7, 202, null, ["img/doble1.jpg", "img/doble2.jpg", "img/doble3.jpg"]),
+        new Habitacion(8, 203, null, ["img/doble1.jpg", "img/doble2.jpg", "img/doble3.jpg"]),
+        new Habitacion(9, 204, null, ["img/doble1.jpg", "img/doble2.jpg", "img/doble3.jpg"]),
+        new Habitacion(10, 205, null, ["img/doble1.jpg", "img/doble2.jpg", "img/doble3.jpg"]),
+        new Habitacion(11, 206, null, ["img/doble1.jpg", "img/doble2.jpg", "img/doble3.jpg"]),
+        new Habitacion(12, 207, null, ["img/doble1.jpg", "img/doble2.jpg", "img/doble3.jpg"]),
+        new Habitacion(13, 208, null, ["img/doble1.jpg", "img/doble2.jpg", "img/doble3.jpg"]),
+        new Habitacion(14, 209, null, ["img/doble1.jpg", "img/doble2.jpg", "img/doble3.jpg"]),
+        new Habitacion(15, 210, null, ["img/doble1.jpg", "img/doble2.jpg", "img/doble3.jpg"]),
 
         // INDIVIDUAL PLUS (301-305)
-        new Habitacion(16, 301, null, ["img/ind1.jpg"]),
-        new Habitacion(17, 302, null, ["img/ind1.jpg"]),
-        new Habitacion(18, 303, null, ["img/ind1.jpg"]),
-        new Habitacion(19, 304, null, ["img/ind1.jpg"]),
-        new Habitacion(20, 305, null, ["img/ind1.jpg"]),
+        new Habitacion(16, 301, null, ["img/ind1.jpg", "img/ind2.jpg", "img/ind3.jpg"]),
+        new Habitacion(17, 302, null, ["img/ind1.jpg", "img/ind2.jpg", "img/ind3.jpg"]),
+        new Habitacion(18, 303, null, ["img/ind1.jpg", "img/ind2.jpg", "img/ind3.jpg"]),
+        new Habitacion(19, 304, null, ["img/ind1.jpg", "img/ind2.jpg", "img/ind3.jpg"]),
+        new Habitacion(20, 305, null, ["img/ind1.jpg", "img/ind2.jpg", "img/ind3.jpg"]),
 
         // PREMIUM (401-405)
-        new Habitacion(21, 401, null, ["img/premium1.jpg"]),
-        new Habitacion(22, 402, null, ["img/premium1.jpg"]),
-        new Habitacion(23, 403, null, ["img/premium1.jpg"]),
-        new Habitacion(24, 404, null, ["img/premium1.jpg"]),
-        new Habitacion(25, 405, null, ["img/premium1.jpg"])
+        new Habitacion(21, 401, null, ["img/premium1.jpg", "img/premium2.jpg", "img/premium3.jpg"]),
+        new Habitacion(22, 402, null, ["img/premium1.jpg", "img/premium2.jpg", "img/premium3.jpg"]),
+        new Habitacion(23, 403, null, ["img/premium1.jpg", "img/premium2.jpg", "img/premium3.jpg"]),
+        new Habitacion(24, 404, null, ["img/premium1.jpg", "img/premium2.jpg", "img/premium3.jpg"]),
+        new Habitacion(25, 405, null, ["img/premium1.jpg", "img/premium2.jpg", "img/premium3.jpg"])
     ];
+
 
     // 3. Asignamos cada habitación a su tipo correspondiente
     habs.forEach(h => {
