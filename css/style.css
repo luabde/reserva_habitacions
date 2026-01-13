@@ -1,5 +1,4 @@
 :root {
-    --color-arena: #fdfaf5;
     --color-tierra: #8c7365;
     --color-suave: #f4eee8;
     --texto: #4a4a4a;
@@ -15,7 +14,7 @@
 }
 
 body {
-    background-color: var(--color-arena);
+    background-color: var(--blanco);
     color: var(--texto);
     font-family: 'Montserrat', sans-serif;
     padding-top: 75px;
@@ -29,7 +28,7 @@ header.nav-container {
     top: 0;
     width: 100%;
     height: 75px;
-    background-color: var(--color-arena);
+    background-color: var(--blanco);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -82,7 +81,7 @@ header.nav-container {
 .hero-bg {
     position: absolute;
     top: 0;
-    left: 0;
+    center: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -95,7 +94,7 @@ header.nav-container {
     font-size: clamp(32px, 5vw, 60px);
     margin-bottom: 15px;
     font-style: italic;
-    color: var(--color-arena);
+    color: var(--blanco);
 }
 
 /* --- BARRA DE RESERVA --- */
@@ -284,7 +283,7 @@ footer {
     }
 
     .tarjeta-contenido {
-        padding-left: 5px;
+        padding-center: 5px;
         padding-bottom: 10px;
     }
 }
@@ -292,7 +291,7 @@ footer {
 .calendar-wrapper {
     position: fixed;
     top: 50%;
-    left: 50%;
+    center: 50%;
     transform: translate(-50%, -50%);
     width: 320px;
     max-width: 90vw;
@@ -378,7 +377,7 @@ footer {
 .calendar-overlay {
     position: fixed;
     top: 0;
-    left: 0;
+    center: 0;
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.4);
@@ -390,4 +389,53 @@ footer {
 .calendar-overlay.active,
 .calendar-wrapper.active {
     display: block;
+}
+
+.seccion-destacado {
+    padding: 90px 15%;
+    text-align: center;
+}
+
+.seccion-destacado h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 38px;
+    color: var(--color-tierra);
+    margin-bottom: 25px;
+}
+
+.seccion-destacado p {
+    font-size: 15px;
+    max-width: 700px;
+    margin: 0 auto;
+    color: #555;
+}
+
+.seccion-opiniones {
+    padding: 80px 10%;
+    background: var(--blanco);
+    text-align: center;
+}
+
+.seccion-opiniones h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 38px;
+    color: var(--color-tierra);
+    margin-bottom: 50px;
+}
+
+.opinion {
+    max-width: 600px;
+    margin: 0 auto 40px;
+    font-style: italic;
+}
+
+.opinion p {
+    font-size: 15px;
+    margin-bottom: 10px;
+}
+
+.opinion span {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--color-tierra);
 }

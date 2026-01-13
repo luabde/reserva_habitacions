@@ -65,7 +65,6 @@
         <button class="btn-reserva" onclick="buscarHabitacio()">Buscar</button>
     </div>
 
-    <!-- Container del Calendario (Oculto por defecto) -->
     <div id="calendari" class="calendar-wrapper" style="display: none;">
         <button onclick="cerrarCalendario()"
             style="padding-left: 95%; padding-bottom: 20px; border: none; background-color: transparent; cursor: pointer;">X</button>
@@ -87,19 +86,20 @@
                     <th>Diu</th>
                 </tr>
             </thead>
-
-            <tbody id="calendar-body">
-
-            </tbody>
+            <tbody id="calendar-body"></tbody>
         </table>
     </div>
 
     <main>
+
         <section class="seccion-texto" id="hotel">
             <h2>Mucho más que un hotel</h2>
-            <p>Descubre un oasis de tranquilidad donde el confort se encuentra con la belleza del Mediterráneo. Nuestras
-                instalaciones están diseñadas para que disfrutes de unas vacaciones inolvidables junto a tu familia.</p>
+            <p>
+                Descubre un oasis de tranquilidad donde el confort se encuentra con la belleza del Mediterráneo.
+                En Costa Dorada cuidamos cada detalle para que vivas unas vacaciones inolvidables en familia.
+            </p>
         </section>
+
 
         <section class="grid-habitaciones" id="habitaciones">
             <div class="tarjeta-habitacion">
@@ -107,8 +107,7 @@
                     alt="Habitación familiar">
                 <div class="tarjeta-contenido">
                     <h3>Suite</h3>
-                    <p>Dos espacios conectados para mantener la privacidad de los padres y la diversión de los niños.
-                    </p>
+                    <p>Dos espacios conectados, ideales para familias.</p>
                     <a href="habitacion.html" class="link-mas">Ver detalles</a>
                 </div>
             </div>
@@ -118,18 +117,39 @@
                     alt="Vistas al mar">
                 <div class="tarjeta-contenido">
                     <h3>Doble con Vistas</h3>
-                    <p>Luminosa, cálida y perfecta para despertarse con el sonido de las olas de fondo.</p>
+                    <p>Despierta cada mañana con el sonido del mar.</p>
                     <a href="habitacion.html" class="link-mas">Ver detalles</a>
                 </div>
             </div>
         </section>
+
+        <section class="seccion-destacado">
+            <h2>¿Por qué elegir Costa Dorada?</h2>
+            <p>
+                Ubicados a pocos pasos de la playa y cerca de los principales puntos turísticos de la Costa Daurada,
+                ofrecemos un entorno tranquilo, familiar y acogedor.
+            </p>
+        </section>
+
+        <section class="seccion-opiniones">
+            <h2>Opiniones de nuestros huéspedes</h2>
+            <div class="opinion">
+                <p>“Perfecto para venir con niños. Tranquilo y muy cómodo.”</p>
+                <span>— Laura M.</span>
+            </div>
+            <div class="opinion">
+                <p>“Las vistas al mar son increíbles. Repetiremos seguro.”</p>
+                <span>— Carlos y Ana</span>
+            </div>
+        </section>
+
     </main>
 
     <footer id="contacto">
         <span class="footer-logo">Costa Dorada</span>
-        <p>Estamos en Passeig Marítim, 123 - Salou, Tarragona, esperándoos con los brazos abiertos.</p>
+        <p>Passeig Marítim, 123 · Salou · Tarragona</p>
         <div style="margin-top: 40px; font-size: 11px; color: var(--color-tierra); letter-spacing: 1px;">
-            © 2026 COSTA DORADA HOTEL &middot; VACACIONES EN FAMILIA
+            © 2026 COSTA DORADA HOTEL · VACACIONES EN FAMILIA
         </div>
     </footer>
 

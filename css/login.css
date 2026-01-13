@@ -1,5 +1,4 @@
 :root {
-    --color-arena: #fdfaf5;
     --color-tierra: #8c7365;
     --texto: #4a4a4a;
     --blanco: #ffffff;
@@ -12,7 +11,7 @@
 }
 
 body {
-    background-color: var(--color-arena);
+    background-color: var(--blanco);
     color: var(--texto);
     font-family: 'Montserrat', sans-serif;
     height: 100vh;
