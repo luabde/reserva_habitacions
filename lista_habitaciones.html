@@ -9,7 +9,9 @@
         href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/resultadoBuscar.css">
     <script src="js/script.js"></script>
+    <script src="js/resultadoBusqueda.js"></script>
 </head>
 
 <body>
@@ -24,16 +26,31 @@
         </nav>
     </header>
 
-    <section class="hero" style="height: 40vh; min-height: 300px;">
-        <img class="hero-bg" src="img/hero.png" alt="Familia en la playa">
-        <h1>Habitaciones Disponibles</h1>
-        <p>Encuentra tu estancia perfecta</p>
-    </section>
+    <header class="nav-container">
+        <a href="../index.html" class="logo">Costa Dorada</a>
+        <nav class="nav-links">
+            <a href="../index.html#habitaciones">Nuestras Habitaciones</a>
+            <a href="../index.html#hotel">El Hotel</a>
+            <a href="../index.html#contacto">Contacto</a>
+            <a href="../login.html" class="btn-login-header">Login</a>
+        </nav>
+    </header>
 
-    <main>
-        <section class="grid-habitaciones" id="lista-resultados">
-            <!-- Las habitaciones se insertarán aquí dinámicamente con JS -->
+    <main class="container-resultados">
+        <section class="seccion-texto">
+            <h1 id="titulo-resultados">Buscando habitaciones...</h1>
+            <p id="subtitulo-resultados">Hemos encontrado las siguientes opciones para tu estancia.</p>
         </section>
+
+        <section id="contenedor-habitaciones" class="grid-habitaciones">
+            <!-- Las habitaciones se cargarán dinámicamente aquí -->
+        </section>
+
+        <div id="sin-resultados" style="display: none; text-align: center; margin-top: 50px;">
+            <p>No hemos encontrado habitaciones disponibles para las fechas seleccionadas.</p>
+            <a href="../index.html" class="link-mas" style="display: inline-block; margin-top: 20px;">Volver a
+                buscar</a>
+        </div>
     </main>
 
     <footer id="contacto">
