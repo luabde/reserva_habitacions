@@ -348,6 +348,24 @@ function buscarHabitacio() {
     }
 }
 
+function verDetalles(e, tipoNombre) {
+    // Evitamos que la página salte al principio al hacer clic en un enlace con '#'
+    if (e) e.preventDefault();
+
+    // Buscamos el tipo en el hotel para sacar la primera habitación de ese tipo
+    const tipo = hotel.tipoHabitaciones.find(t => t._nombre === tipoNombre);
+    if (!tipo) return;
+
+    // Cogemos la primera habitación de ese tipo para mostrar como ejemplo en los detalles
+    const habId = tipo._habitaciones.length > 0 ? tipo._habitaciones[0].idHab : null;
+
+    if (habId !== null) {
+        localStorage.setItem("tipoSeleccionado", JSON.stringify(tipoNombre));
+        localStorage.setItem("habitacionSeleccionada", habId);
+        window.location.href = "html/habitacionDetalles.html";
+    }
+}
+
 // Cerrar sesión
 function cerrarSesion() {
     localStorage.removeItem("usuarioLogueado");
