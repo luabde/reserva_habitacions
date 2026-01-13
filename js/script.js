@@ -84,7 +84,7 @@ class Hotel {
         
         let habitaciones = [];
         for(let habitacion of tipoHab._habitaciones){
-            const fechasNoDisponibles = habitacion._fechasNoDisponibles;
+            const fechasNoDisponibles = habitacion.fechasNoDisponibles;
             console.log("Fechas no disponibles: ", fechasNoDisponibles);
 
             let disponible = true;
@@ -100,7 +100,8 @@ class Hotel {
             }
         }
 
-        console.log("Hbaitaciones disponibles: ", habitaciones);
+        localStorage.setItem("tipoSeleccionado", JSON.stringify(tipo));
+        localStorage.setItem("habDispo", JSON.stringify(habitaciones));
     }
 
     validarNumPersonas(tipo, cantPersonas){
@@ -314,76 +315,8 @@ function buscarHabitacio() {
     }
 
     hotel.obtenerHabDispo(tipo, checkin, checkout, numPersonas);
-}
 
-// Login
-function loginUsuario(e) {
-    e.preventDefault();
-
-    const email = document.getElementById("email").value.trim();
-    const password = document.getElementById("password").value.trim();
-
-    // Buscar el usuario en los objetos reales
-    const usuario = usuarios.find(
-        u => u.email === email && u.contraseña === password
-    );
-
-    if (!usuario) {
-        alert("Email o contraseña incorrectos");
-        return;
-    }
-
-    // Guardamos solo el id del usuario logueado
-    localStorage.setItem("usuarioLogueado", JSON.stringify({ id: usuario.id }));
-    window.location.href = "index.html";
-}
-
-// Registro
-function registrarUsuario(e) {
-    e.preventDefault();
-
-    const nombre = document.getElementById("name").value.trim();
-    const email = document.getElementById("email").value.trim();
-    const pass = document.getElementById("password").value.trim();
-    const pass2 = document.getElementById("confirm-password").value.trim();
-
-    if (pass !== pass2) {
-        alert("Las contraseñas no coinciden");
-        return;
-    }
-
-    // Comprobar si ya existe el email
-    if (usuarios.some(u => u.email === email)) {
-        alert("Email ya registrado");
-        return;
-    }
-
-    // Crear objeto Usuario
-    const nuevoUsuario = new Usuario(
-        usuarios.length + 1,
-        nombre,
-        email,
-        pass,
-        []
-    );
-
-    // Añadir al array de usuarios y actualizar el hotel
-    usuarios.push(nuevoUsuario);
-    hotel.usuarios = usuarios;
-
-    // Guardar en localStorage
-    localStorage.setItem("hotel", JSON.stringify(hotel));
-
-    alert("Usuario registrado correctamente");
-    window.location.href = "login.html";
-}
-
-// Obtener usuario logueado
-function obtenerUsuarioLogueado() {
-    const data = JSON.parse(localStorage.getItem("usuarioLogueado"));
-    if (!data) return null;
-
-    return usuarios.find(u => u.id === data.id);
+    window.location.href = "../html/resultadoBuscar.html";
 }
 
 // Cerrar sesión
