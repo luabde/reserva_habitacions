@@ -291,7 +291,7 @@ footer {
 .calendar-wrapper {
     position: fixed;
     top: 50%;
-    center: 50%;
+    left: 50%;
     transform: translate(-50%, -50%);
     width: 320px;
     max-width: 90vw;
