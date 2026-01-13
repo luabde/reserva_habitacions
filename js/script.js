@@ -327,7 +327,7 @@ function buscarHabitacio() {
 
     hotel.obtenerHabDispo(tipo, checkin, checkout, numPersonas);
 
-    window.location.href = "lista_habitaciones.html";
+    window.location.href = "../html/resultadoBuscar.html";
 }
 
 // Cerrar sesión
@@ -434,13 +434,6 @@ function checkLoginState() {
 
 // Renderizar resultados en lista_habitaciones.html
 function renderizarResultados() {
-
-}
-
-// Cargar detalles en habitacion.html
-function cargarDetalleHabitacion() {
-
-
     // 2. Recuperar ID de habitación y Tipo seleccionado
     const habId = localStorage.getItem("habitacionSeleccionada");
     let tipoNombre = JSON.parse(localStorage.getItem("tipoSeleccionado"));
@@ -493,5 +486,10 @@ function cargarDetalleHabitacion() {
     });
 
     // Falta autocompletar la reserva
+}
+
+// Cargar detalles en habitacion.html
+function cargarDetalleHabitacion() {
+
 
 }
