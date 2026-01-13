@@ -12,26 +12,7 @@ class Hotel {
         return tipoHabitacion;
     }
 
-    obtenerHabDispo(tipo, checkin, checkout, cantPersonas) {
-        // Obtenemos las fechas que no estan disponibles de cada habitacion y nos aseguramos de que esa habitacion esta dispobible
-        const tipoHab = this.obtenerTipoHabitacion(tipo);
-
-        // Validamos el numero de personas después de saber su tipo
-        const resultado = this.validarNumPersonas(tipoHab, cantPersonas);
-
-        if (!resultado) {
-            alert("El numero de personas seleccionado, es demasiado para ese tipo de habitación");
-            return false;
-        }
-
-        // Creamos el rango de fechas que se quiere reservar
-        let diasMeses = [];
-        let any = 2026;
-        for (let i = 1; i <= 12; i++) {
-            diasMeses.push(new Date(any, i, 0).getDate());
-        }
-
-        console.log("DIAS MESES:", diasMeses);
+    generarRango(checkin, checkout) {
         let [dIn, mIn, aIn] = checkin.split("/");
         let [dOut, mOut, aOut] = checkout.split("/");
 
@@ -46,7 +27,7 @@ class Hotel {
 
         if (mIn != mOut && aIn === aOut) {
             // Cuando se cambia el mes pero no el año
-            const diasMesActual = new Date(aIn, mIn + 1, 0).getDate(); // Se le suma 1 para pedir el dia 0 del mses anterior (hace referencia al ultimo dia del mes)
+            const diasMesActual = new Date(aIn, mIn + 1, 0).getDate();
 
             // For para añadir el rango desde el checkin hasta final de mes
             for (let i = dIn; i <= diasMesActual; i++) {
@@ -56,7 +37,6 @@ class Hotel {
             for (let i = 1; i <= dOut; i++) {
                 rango.push(`${i}/${mOut}/${aIn}`);
             }
-
         }
 
         if (aIn != aOut) {
@@ -78,15 +58,26 @@ class Hotel {
             for (let i = dIn; i <= dOut; i++) {
                 rango.push(`${i}/${mIn}/${aIn}`);
             }
-
         }
+
+        return rango;
+    }
+
+    obtenerHabDispo(tipo, checkin, checkout, cantPersonas) {
+        const tipoHab = this.obtenerTipoHabitacion(tipo);
+        const resultado = this.validarNumPersonas(tipoHab, cantPersonas);
+
+        if (!resultado) {
+            alert("El numero de personas seleccionado, es demasiado para ese tipo de habitación");
+            return false;
+        }
+
+        const rango = this.generarRango(checkin, checkout);
         console.log("Rango: ", rango);
 
         let habitaciones = [];
         for (let habitacion of tipoHab._habitaciones) {
             const fechasNoDisponibles = habitacion.fechasNoDisponibles;
-            console.log("Fechas no disponibles: ", fechasNoDisponibles);
-
             let disponible = true;
             for (let fecha of rango) {
                 if (fechasNoDisponibles.includes(fecha)) {
@@ -94,7 +85,6 @@ class Hotel {
                 }
             }
 
-            // Cuando es true, es decir que esas fechas estan disponibles porque no se incluyen en fechas no dispo se suben a habitaciones
             if (disponible) {
                 habitaciones.push(habitacion);
             }
@@ -136,11 +126,11 @@ class TipoHabitacion {
 }
 
 class Habitacion {
-    constructor(id, numero, urlFotos = []) {
+    constructor(id, numero, urlFotos = [], fechasNoDisponibles = []) {
         this.idHab = id;
         this.numero = numero;
         this.urlFotos = urlFotos;
-        this.fechasNoDisponibles = [];
+        this.fechasNoDisponibles = fechasNoDisponibles;
     }
 
     añadirFechaNoDisponible(fecha) {
@@ -299,7 +289,7 @@ function crearObjetosJSON() {
     // 2. Reconstruir tipo de habitacion y habitaciones de cada tipo
     tipoHabitaciones = datos.tipoHabitaciones.map(tipo => {
         const habitacionesReconstruidas = tipo._habitaciones ? tipo._habitaciones.map(hab => {
-            return habit = new Habitacion(hab.idHab, hab.numero, hab.urlFotos);
+            return new Habitacion(hab.idHab, hab.numero, hab.urlFotos, hab.fechasNoDisponibles || []);
         }) : [];
 
         return new TipoHabitacion(tipo._nombre, tipo._descripcion, tipo._capacidad, tipo._servicios, tipo._precioBase, habitacionesReconstruidas);
@@ -569,4 +559,75 @@ function actualizaerDetallesReserva() {
         if (labelDias) labelDias.innerText = `${nights}`;
         if (labelTotal) labelTotal.innerText = `${total}€`;
     }
+}
+
+function reservarHabitacion(e) {
+    if (e) e.preventDefault();
+
+    const usuarioActual = obtenerUsuarioLogueado();
+    if (!usuarioActual) {
+        alert("¡Atención! Para realizar una reserva primero debes iniciar sesión.");
+        return;
+    }
+
+    const habId = localStorage.getItem("habitacionSeleccionada");
+    const params = JSON.parse(localStorage.getItem("busquedaParams"));
+    const tipoNombre = JSON.parse(localStorage.getItem("tipoSeleccionado"));
+
+    if (!habId || !params || !tipoNombre) {
+        alert("Error: No se han podido recuperar los datos de la reserva. Por favor, vuelve a realizar la búsqueda.");
+        return;
+    }
+
+    // 1. Buscar la habitación en el hotel (necesitamos encontrar el objeto real del hotel)
+    const tipo = hotel.obtenerTipoHabitacion(tipoNombre);
+    const habitacion = tipo._habitaciones.find(h => h.idHab == habId);
+
+    if (!habitacion) {
+        alert("Error al encontrar la habitación seleccionada.");
+        return;
+    }
+
+    // 2. Generar el rango de fechas para marcar como no disponible
+    const rango = hotel.generarRango(params.checkin, params.checkout);
+
+    // 3. Bloquear las fechas en la habitación
+    rango.forEach(fecha => habitacion.añadirFechaNoDisponible(fecha));
+
+    // 4. Calcular el precio total para el objeto Reserva
+    const [d1, m1, a1] = params.checkin.split("/").map(Number);
+    const [d2, m2, a2] = params.checkout.split("/").map(Number);
+    const f1 = new Date(a1, m1 - 1, d1);
+    const f2 = new Date(a2, m2 - 1, d2);
+    const diff = f2 - f1;
+    const nights = Math.max(1, Math.floor(diff / (1000 * 60 * 60 * 24)));
+    const personas = Number(params.personas);
+    const precioTotal = (tipo._precioBase * nights) * personas;
+
+    // 5. Crear la nueva reserva
+    const nuevaReserva = new Reserva(
+        usuarioActual.reservas.length + 1,
+        { idHab: habitacion.idHab, numero: habitacion.numero }, // Simplificamos el objeto habitación para el historial
+        params.checkin,
+        params.checkout,
+        nights,
+        precioTotal
+    );
+
+    // 6. Añadir la reserva al usuario logueado
+    usuarioActual.reservas.push(nuevaReserva);
+
+    // 7. Actualizar el hotel en LocalStorage (esto guardará las fechas no disponibles y la reserva del usuario)
+    localStorage.setItem("hotel", JSON.stringify(hotel));
+
+    alert("¡Felicidades! Reserva realizada correctamente para la habitación " + habitacion.numero);
+
+    // Limpiamos datos temporales de la reserva pero mantenemos el login
+    localStorage.removeItem("habitacionSeleccionada");
+    localStorage.removeItem("busquedaParams");
+    localStorage.removeItem("habDispo");
+
+    // Redirigimos al inicio
+    const esSub = window.location.pathname.includes("/html/");
+    window.location.href = esSub ? "../index.html" : "index.html";
 }
