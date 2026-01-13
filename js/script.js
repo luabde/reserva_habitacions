@@ -83,9 +83,24 @@ class Hotel {
         console.log("Rango: ", rango);
         
         let habitaciones = [];
-        // for(let habitacion of tipoHab[0]._habitaciones){
-        //     console.log("Habitacion: ", habitacion);
-        // }
+        for(let habitacion of tipoHab._habitaciones){
+            const fechasNoDisponibles = habitacion._fechasNoDisponibles;
+            console.log("Fechas no disponibles: ", fechasNoDisponibles);
+
+            let disponible = true;
+            for(let fecha of rango){
+                if(fechasNoDisponibles.includes(fecha)){
+                    disponible = false;
+                }
+            }
+
+            // Cuando es true, es decir que esas fechas estan disponibles porque no se incluyen en fechas no dispo se suben a habitaciones
+            if(disponible){
+                habitaciones.push(habitacion);
+            }
+        }
+
+        console.log("Hbaitaciones disponibles: ", habitaciones);
     }
 
     validarNumPersonas(tipo, cantPersonas){
@@ -114,48 +129,6 @@ class TipoHabitacion {
         this._servicios = servicios;
         this._precioBase = precioBase;
         this._habitaciones = habitaciones;
-    }
-
-    // GETTERS
-    get nombre() {
-        return this._nombre;
-    }
-
-    get descripcion() {
-        return this._descripcion;
-    }
-
-    get capacidad() {
-        return this._capacidad;
-    }
-
-    get servicios() {
-        return this._servicios;
-    }
-
-    get precioBase() {
-        return this._precioBase;
-    }
-
-    // SETTERS
-    set nombre(valor) {
-        this._nombre = valor;
-    }
-
-    set descripcion(valor) {
-        this._descripcion = valor;
-    }
-
-    set capacidad(valor) {
-        this._capacidad = valor;
-    }
-
-    set servicios(valor) {
-        this._servicios = valor;
-    }
-
-    set precioBase(valor) {
-        this._precioBase = valor;
     }
 }
 
