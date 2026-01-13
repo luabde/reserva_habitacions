@@ -7,20 +7,94 @@ class Hotel {
     }
 
     obtenerTipoHabitacion(tipo){
-        const tipoHabitacion = this.tipoHabitaciones.filter(hab => hab._nombre === tipo);
-
+        const tipoHabitacion = this.tipoHabitaciones.find(hab => hab._nombre === tipo);
+        console.log("Tipo habitacion: ", tipoHabitacion);
         return tipoHabitacion;
     }
 
-    obtenerHabDispo(tipo, checkin, checkout){
-        // Creamos el rango de fechas que se quiere reservar
-
+    obtenerHabDispo(tipo, checkin, checkout, cantPersonas){
         // Obtenemos las fechas que no estan disponibles de cada habitacion y nos aseguramos de que esa habitacion esta dispobible
         const tipoHab = this.obtenerTipoHabitacion(tipo);
-        for(let habitacion of tipoHab[0]._habitaciones){
-            console.log("Habitacion: ", habitacion);
+
+        // Validamos el numero de personas después de saber su tipo
+        const resultado = this.validarNumPersonas(tipoHab, cantPersonas);
+
+        if (!resultado){
+          alert("El numero de personas seleccionado, es demasiado para ese tipo de habitación");
+          return;  
+        } 
+
+        // Creamos el rango de fechas que se quiere reservar
+        let diasMeses = [];
+        let any = 2026;
+        for (let i = 1; i <= 12; i++) {
+            diasMeses.push(new Date(any, i, 0).getDate());
         }
+
+        console.log("DIAS MESES:", diasMeses);
+        let [dIn, mIn, aIn] = checkin.split("/");
+        let [dOut, mOut, aOut] = checkout.split("/");
+
+        dIn = Number(dIn);
+        dOut = Number(dOut);
+        mIn = Number(mIn);
+        mOut = Number(mOut);
+        aIn = Number(aIn);
+        aOut = Number(aOut);
+
+        let rango = [];
+
+        if(mIn != mOut && aIn === aOut){
+            // Cuando se cambia el mes pero no el año
+            const diasMesActual = new Date(aIn, mIn + 1, 0).getDate(); // Se le suma 1 para pedir el dia 0 del mses anterior (hace referencia al ultimo dia del mes)
+            
+            // For para añadir el rango desde el checkin hasta final de mes
+            for(let i = dIn; i <= diasMesActual; i++){
+                rango.push(`${i}/${mIn}/${aIn}`);
+            }
+            // For para añadir las fechas desde principios de mes del mes siguiente hasta la fecha seleciconada
+            for(let i = 1; i <= dOut; i++){
+                rango.push(`${i}/${mOut}/${aIn}`);
+            }
+
+        }
+
+        if(aIn != aOut){
+            // 1. Desde checkin hasta fin de año
+            const diasMesActual = new Date(aIn, mIn + 1, 0).getDate();
+
+            for (let i = dIn; i <= diasMesActual; i++) {
+                rango.push(i + "/" + mIn + "/" + aIn);
+            }
+
+            // 2. Desde enero del nuevo año hasta checkout
+            for (let i = 1; i <= dOut; i++) {
+                rango.push(i + "/" + mOut + "/" + aOut);
+            }
+        }
+        
+        if(mIn === mOut){
+            // Cuando no se cambia ni el mes ni el año unicamente iremos sumando el dia hasta llega al del out
+            for(let i = dIn; i <= dOut; i++){
+                rango.push(`${i}/${mIn}/${aIn}`);
+            }
+
+        }
+        console.log("Rango: ", rango);
+        
+        let habitaciones = [];
+        // for(let habitacion of tipoHab[0]._habitaciones){
+        //     console.log("Habitacion: ", habitacion);
+        // }
     }
+
+    validarNumPersonas(tipo, cantPersonas){
+        const capacidad = tipo._capacidad;
+        const num = Number(cantPersonas);
+
+        return num <= capacidad;
+    }
+
 
 }
 
@@ -32,48 +106,6 @@ class TipoHabitacion {
         this._servicios = servicios;
         this._precioBase = precioBase;
         this._habitaciones = habitaciones;
-    }
-
-    // GETTERS
-    get nombre() {
-        return this._nombre;
-    }
-
-    get descripcion() {
-        return this._descripcion;
-    }
-
-    get capacidad() {
-        return this._capacidad;
-    }
-
-    get servicios() {
-        return this._servicios;
-    }
-
-    get precioBase() {
-        return this._precioBase;
-    }
-
-    // SETTERS
-    set nombre(valor) {
-        this._nombre = valor;
-    }
-
-    set descripcion(valor) {
-        this._descripcion = valor;
-    }
-
-    set capacidad(valor) {
-        this._capacidad = valor;
-    }
-
-    set servicios(valor) {
-        this._servicios = valor;
-    }
-
-    set precioBase(valor) {
-        this._precioBase = valor;
     }
 }
 
@@ -257,5 +289,5 @@ function buscarHabitacio() {
         return;
     }
 
-    hotel.obtenerHabDispo(tipo, checkin, checkout);
+    hotel.obtenerHabDispo(tipo, checkin, checkout, numPersonas);
 }
