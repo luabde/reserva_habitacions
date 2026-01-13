@@ -111,28 +111,23 @@
                 <div class="campo">
                     <label>Huéspedes</label>
                     <div class="sub-campo">
-                        <select id="personas">
-                            <option value="2">2 Adultos</option>
-                            <option value="1">1 Adulto</option>
-                            <option value="3">2 Adultos + 1 Niño</option>
-                            <option value="4">2 Adultos + 2 Niños</option>
-                        </select>
+                        <input type="text" id="personas" placeholder="Número de personas">
                     </div>
                 </div>
 
                 <div class="resumen-precio">
                     <div class="linea-precio">
-                        <span>120€ × 1 noche</span>
-                        <span>120€</span>
+                        <span id="label-noches">120€ × 1 noche</span>
+                        <span id="label-subtotal">120€</span>
                     </div>
                     <div class="linea-precio">
-                        <span>Servicio</span>
-                        <span>30€</span>
+                        <span>Dias</span>
+                        <span id="label-dias"></span>
                     </div>
                     <hr>
                     <div class="linea-precio total">
                         <strong>Total</strong>
-                        <strong>150€</strong>
+                        <strong id="label-total">150€</strong>
                     </div>
                 </div>
 

@@ -21,7 +21,7 @@ class Hotel {
 
         if (!resultado) {
             alert("El numero de personas seleccionado, es demasiado para ese tipo de habitación");
-            return;
+            return false;
         }
 
         // Creamos el rango de fechas que se quiere reservar
@@ -102,6 +102,8 @@ class Hotel {
 
         localStorage.setItem("tipoSeleccionado", JSON.stringify(tipo));
         localStorage.setItem("habDispo", JSON.stringify(habitaciones));
+
+        return true;
     }
 
     validarNumPersonas(tipo, cantPersonas) {
@@ -339,9 +341,11 @@ function buscarHabitacio() {
     };
     localStorage.setItem("busquedaParams", JSON.stringify(params));
 
-    hotel.obtenerHabDispo(tipo, checkin, checkout, numPersonas);
+    const result = hotel.obtenerHabDispo(tipo, checkin, checkout, numPersonas);
 
-    window.location.href = "html/resultadoBuscar.html";
+    if (result) {
+        window.location.href = "html/resultadoBuscar.html";
+    }
 }
 
 // Cerrar sesión
@@ -510,4 +514,42 @@ function actualizaerDetallesReserva() {
 
     // 3. Buscar el tipo de habitación en el hotel
     const tipo = hotel.tipoHabitaciones.find(t => t._nombre === tipoNombre);
+    if (!tipo) return;
+
+    const params = JSON.parse(localStorage.getItem("busquedaParams"));
+    if (params) {
+        // Rellenar campos del formulario
+        const inputFechas = document.getElementById("input-fechas");
+        const inputPersonas = document.getElementById("personas");
+
+        if (inputFechas) {
+            inputFechas.value = `${params.checkin}-${params.checkout}`;
+        }
+        if (inputPersonas) {
+            inputPersonas.value = params.personas;
+        }
+
+        // Calcular noches automáticamente a partir de las fechas
+        const [d1, m1, a1] = params.checkin.split("/").map(Number);
+        const [d2, m2, a2] = params.checkout.split("/").map(Number);
+        const f1 = new Date(a1, m1 - 1, d1);
+        const f2 = new Date(a2, m2 - 1, d2);
+        const diff = f2 - f1;
+        const nights = Math.max(1, Math.floor(diff / (1000 * 60 * 60 * 24)));
+
+        // Actualizar resumen de precios
+        const labelNoches = document.getElementById("label-noches");
+        const labelSubtotal = document.getElementById("label-subtotal");
+        const labelDias = document.getElementById("label-dias");
+        const labelTotal = document.getElementById("label-total");
+
+        const subtotal = tipo._precioBase * nights;
+        const gastosServicio = 30; // Gastos fijos
+        const total = subtotal + gastosServicio;
+
+        if (labelNoches) labelNoches.innerText = `${tipo._precioBase}€ × ${nights} noche${nights > 1 ? 's' : ''}`;
+        if (labelSubtotal) labelSubtotal.innerText = `${subtotal}€`;
+        if (labelDias) labelDias.innerText = `${nights}`;
+        if (labelTotal) labelTotal.innerText = `${total}€`;
+    }
 }
