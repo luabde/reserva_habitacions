@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
         tarjeta.className = "tarjeta-habitacion result-card";
 
         // Usamos la primera foto o un placeholder
-        const foto = (hab.urlFotos && hab.urlFotos.length > 0) ? `../${hab.urlFotos[0]}` : "https://images.unsplash.com/photo-1566665797739-1674de7a421a?q=80&w=1974&auto=format&fit=crop";
+        const foto = (hab.urlFotos && hab.urlFotos.length > 0) ? `${hab.urlFotos[0]}` : "https://images.unsplash.com/photo-1566665797739-1674de7a421a?q=80&w=1974&auto=format&fit=crop";
 
         tarjeta.innerHTML = `
             <img src="${foto}" alt="Habitación ${hab.numero}">
@@ -54,5 +54,5 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function reservarHabitacion(id) {
     localStorage.setItem("habitacionSeleccionada", id);
-    window.location.href = "../habitacion.html";
+    window.location.href = "habitacion.html";
 }
