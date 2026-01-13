@@ -1,5 +1,4 @@
 :root {
-    --color-arena: #fdfaf5;
     --color-tierra: #8c7365;
     --color-suave: #f4eee8;
     --texto: #4a4a4a;
@@ -15,7 +14,7 @@
 }
 
 body {
-    background-color: var(--color-arena);
+    background-color: var(--blanco);
     color: var(--texto);
     font-family: 'Montserrat', sans-serif;
     padding-top: 75px;
@@ -29,7 +28,7 @@ header.nav-container {
     top: 0;
     width: 100%;
     height: 75px;
-    background-color: var(--color-arena);
+    background-color: var(--blanco);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -95,7 +94,7 @@ header.nav-container {
     font-size: clamp(32px, 5vw, 60px);
     margin-bottom: 15px;
     font-style: italic;
-    color: var(--color-arena);
+    color: var(--blanco);
 }
 
 /* --- BARRA DE RESERVA --- */
@@ -191,7 +190,7 @@ header.nav-container {
 /* --- SECCIONES --- */
 .seccion-texto {
     padding: 100px 10% 60px;
-    text-align: center;
+    text-align: left;
 }
 
 .seccion-texto h2 {
@@ -390,4 +389,53 @@ footer {
 .calendar-overlay.active,
 .calendar-wrapper.active {
     display: block;
+}
+
+.seccion-destacado {
+    padding: 90px 15%;
+    text-align: left;
+}
+
+.seccion-destacado h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 38px;
+    color: var(--color-tierra);
+    margin-bottom: 25px;
+}
+
+.seccion-destacado p {
+    font-size: 15px;
+    max-width: 700px;
+    margin: 0 auto;
+    color: #555;
+}
+
+.seccion-opiniones {
+    padding: 80px 10%;
+    background: var(--blanco);
+    text-align: left;
+}
+
+.seccion-opiniones h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 38px;
+    color: var(--color-tierra);
+    margin-bottom: 50px;
+}
+
+.opinion {
+    max-width: 600px;
+    margin: 0 auto 40px;
+    font-style: italic;
+}
+
+.opinion p {
+    font-size: 15px;
+    margin-bottom: 10px;
+}
+
+.opinion span {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--color-tierra);
 }
