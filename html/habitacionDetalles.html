@@ -8,8 +8,9 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="./css/style.css">
-    <link rel="stylesheet" href="./css/habitacion.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/habitacion.css">
+    <!-- <script src="js/habitacion.js"></script> -->
 </head>
 
 <body>
@@ -93,53 +94,6 @@
                 </div>
             </div>
         </div>
-
-        <!-- Tarjeta de reserva -->
-        <aside class="tarjeta-reserva">
-            <div class="precio">
-                <span class="cantidad">120€</span>
-                <span class="periodo">/ noche</span>
-            </div>
-
-            <form action="#" onsubmit="alert('Funcionalidad de reserva en desarrollo'); return false;">
-                <div class="campo">
-                    <label>Fechas</label>
-                    <div class="sub-campo">
-                        <input type="text" id="input-fechas" placeholder="Entrada y salida" readonly>
-                    </div>
-                </div>
-                <div class="campo">
-                    <label>Huéspedes</label>
-                    <div class="sub-campo">
-                        <select id="personas">
-                            <option value="2">2 Adultos</option>
-                            <option value="1">1 Adulto</option>
-                            <option value="3">2 Adultos + 1 Niño</option>
-                            <option value="4">2 Adultos + 2 Niños</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="resumen-precio">
-                    <div class="linea-precio">
-                        <span>120€ × 1 noche</span>
-                        <span>120€</span>
-                    </div>
-                    <div class="linea-precio">
-                        <span>Servicio</span>
-                        <span>30€</span>
-                    </div>
-                    <hr>
-                    <div class="linea-precio total">
-                        <strong>Total</strong>
-                        <strong>150€</strong>
-                    </div>
-                </div>
-
-                <button type="submit" class="btn-reservar">Reservar</button>
-            </form>
-            <p class="cancelacion-info">Cancelación gratuita hasta 48h antes</p>
-        </aside>
     </main>
 
     <footer id="contacto">
@@ -150,9 +104,7 @@
         </div>
     </footer>
 
-    <script src="js/calendario.js"></script>
-
-    <script src="js/script.js"></script>
+    <script src="../js/script.js"></script>
 </body>
 
 </html>

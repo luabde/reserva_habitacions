@@ -434,6 +434,7 @@ function checkLoginState() {
 
 // Renderizar resultados en lista_habitaciones.html
 function renderizarResultados() {
+    console.log("DENTRO DE LISTA");
     // 2. Recuperar ID de habitación y Tipo seleccionado
     const habId = localStorage.getItem("habitacionSeleccionada");
     let tipoNombre = JSON.parse(localStorage.getItem("tipoSeleccionado"));
@@ -490,6 +491,6 @@ function renderizarResultados() {
 
 // Cargar detalles en habitacion.html
 function cargarDetalleHabitacion() {
-
+    console.log("CARGANDO LOS DETALLES");
 
 }
