@@ -544,8 +544,7 @@ function actualizaerDetallesReserva() {
         const labelTotal = document.getElementById("label-total");
 
         const subtotal = tipo._precioBase * nights;
-        const gastosServicio = 30; // Gastos fijos
-        const total = subtotal + gastosServicio;
+        const total = subtotal * inputPersonas.value;
 
         if (labelNoches) labelNoches.innerText = `${tipo._precioBase}€ × ${nights} noche${nights > 1 ? 's' : ''}`;
         if (labelSubtotal) labelSubtotal.innerText = `${subtotal}€`;
