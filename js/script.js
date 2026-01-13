@@ -189,6 +189,14 @@ window.addEventListener("load", () => {
 
     // Verificamos estado del login para el botón del header
     checkLoginState();
+
+    // En el caso de que la pagina se la de la habitacion, se llama a la funcion de renderizar resultado para mostrar dinamicamente la habitacion
+    let pagina = window.location.href.split("/");
+    pagina = pagina[pagina.length -1];
+
+    if(pagina === "habitacion.html"){
+        renderizarResultados();
+    }
 });
 
 function inicializarDatos() {
@@ -432,9 +440,8 @@ function checkLoginState() {
     }
 }
 
-// Renderizar resultados en lista_habitaciones.html
+// Renderizar pagina habitacion.html
 function renderizarResultados() {
-    console.log("DENTRO DE LISTA");
     // 2. Recuperar ID de habitación y Tipo seleccionado
     const habId = localStorage.getItem("habitacionSeleccionada");
     let tipoNombre = JSON.parse(localStorage.getItem("tipoSeleccionado"));
@@ -487,10 +494,4 @@ function renderizarResultados() {
     });
 
     // Falta autocompletar la reserva
-}
-
-// Cargar detalles en habitacion.html
-function cargarDetalleHabitacion() {
-    console.log("CARGANDO LOS DETALLES");
-
 }
