@@ -6,23 +6,23 @@ class Hotel {
         this.tipoHabitaciones = tipoHabitaciones;
     }
 
-    obtenerTipoHabitacion(tipo){
+    obtenerTipoHabitacion(tipo) {
         const tipoHabitacion = this.tipoHabitaciones.find(hab => hab._nombre === tipo);
         console.log("Tipo habitacion: ", tipoHabitacion);
         return tipoHabitacion;
     }
 
-    obtenerHabDispo(tipo, checkin, checkout, cantPersonas){
+    obtenerHabDispo(tipo, checkin, checkout, cantPersonas) {
         // Obtenemos las fechas que no estan disponibles de cada habitacion y nos aseguramos de que esa habitacion esta dispobible
         const tipoHab = this.obtenerTipoHabitacion(tipo);
 
         // Validamos el numero de personas después de saber su tipo
         const resultado = this.validarNumPersonas(tipoHab, cantPersonas);
 
-        if (!resultado){
-          alert("El numero de personas seleccionado, es demasiado para ese tipo de habitación");
-          return;  
-        } 
+        if (!resultado) {
+            alert("El numero de personas seleccionado, es demasiado para ese tipo de habitación");
+            return;
+        }
 
         // Creamos el rango de fechas que se quiere reservar
         let diasMeses = [];
@@ -44,22 +44,22 @@ class Hotel {
 
         let rango = [];
 
-        if(mIn != mOut && aIn === aOut){
+        if (mIn != mOut && aIn === aOut) {
             // Cuando se cambia el mes pero no el año
             const diasMesActual = new Date(aIn, mIn + 1, 0).getDate(); // Se le suma 1 para pedir el dia 0 del mses anterior (hace referencia al ultimo dia del mes)
-            
+
             // For para añadir el rango desde el checkin hasta final de mes
-            for(let i = dIn; i <= diasMesActual; i++){
+            for (let i = dIn; i <= diasMesActual; i++) {
                 rango.push(`${i}/${mIn}/${aIn}`);
             }
             // For para añadir las fechas desde principios de mes del mes siguiente hasta la fecha seleciconada
-            for(let i = 1; i <= dOut; i++){
+            for (let i = 1; i <= dOut; i++) {
                 rango.push(`${i}/${mOut}/${aIn}`);
             }
 
         }
 
-        if(aIn != aOut){
+        if (aIn != aOut) {
             // 1. Desde checkin hasta fin de año
             const diasMesActual = new Date(aIn, mIn + 1, 0).getDate();
 
@@ -72,30 +72,30 @@ class Hotel {
                 rango.push(i + "/" + mOut + "/" + aOut);
             }
         }
-        
-        if(mIn === mOut){
+
+        if (mIn === mOut) {
             // Cuando no se cambia ni el mes ni el año unicamente iremos sumando el dia hasta llega al del out
-            for(let i = dIn; i <= dOut; i++){
+            for (let i = dIn; i <= dOut; i++) {
                 rango.push(`${i}/${mIn}/${aIn}`);
             }
 
         }
         console.log("Rango: ", rango);
-        
+
         let habitaciones = [];
-        for(let habitacion of tipoHab._habitaciones){
+        for (let habitacion of tipoHab._habitaciones) {
             const fechasNoDisponibles = habitacion.fechasNoDisponibles;
             console.log("Fechas no disponibles: ", fechasNoDisponibles);
 
             let disponible = true;
-            for(let fecha of rango){
-                if(fechasNoDisponibles.includes(fecha)){
+            for (let fecha of rango) {
+                if (fechasNoDisponibles.includes(fecha)) {
                     disponible = false;
                 }
             }
 
             // Cuando es true, es decir que esas fechas estan disponibles porque no se incluyen en fechas no dispo se suben a habitaciones
-            if(disponible){
+            if (disponible) {
                 habitaciones.push(habitacion);
             }
         }
@@ -104,7 +104,7 @@ class Hotel {
         localStorage.setItem("habDispo", JSON.stringify(habitaciones));
     }
 
-    validarNumPersonas(tipo, cantPersonas){
+    validarNumPersonas(tipo, cantPersonas) {
         const capacidad = tipo._capacidad;
         const num = Number(cantPersonas);
 
@@ -112,7 +112,7 @@ class Hotel {
     }
 
 
-    validarNumPersonas(tipo, cantPersonas){
+    validarNumPersonas(tipo, cantPersonas) {
         const capacidad = tipo._capacidad;
         const num = Number(cantPersonas);
 
@@ -133,7 +133,7 @@ class TipoHabitacion {
     }
 }
 
-class Habitacion{
+class Habitacion {
     constructor(id, numero, urlFotos = []) {
         this.idHab = id;
         this.numero = numero;
@@ -186,6 +186,9 @@ window.addEventListener("load", () => {
 
     // Independientemente de si lo acabamos de crear o ya estaba, reconstruimos los objetos
     crearObjetosJSON();
+
+    // Verificamos estado del login para el botón del header
+    checkLoginState();
 });
 
 function inicializarDatos() {
@@ -398,4 +401,24 @@ function obtenerUsuarioLogueado() {
 function cerrarSesion() {
     localStorage.removeItem("usuarioLogueado");
     window.location.href = "login.html";
+}
+
+function checkLoginState() {
+    const btnLogin = document.getElementById("btn-login");
+    // Si no estamos en una página con el botón de login (ej: login.html), no hacemos nada
+    if (!btnLogin) return;
+
+    const usuario = obtenerUsuarioLogueado();
+
+    if (usuario) {
+        btnLogin.textContent = "Logout";
+        btnLogin.href = "#";
+        btnLogin.addEventListener("click", (e) => {
+            e.preventDefault();
+            cerrarSesion();
+        });
+    } else {
+        btnLogin.textContent = "Login";
+        btnLogin.href = "login.html";
+    }
 }

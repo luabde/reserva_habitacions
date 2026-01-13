@@ -52,17 +52,37 @@ header.nav-container {
 }
 
 .nav-links a {
+    display: flex;
     color: var(--texto);
     text-decoration: none;
     font-size: 14px;
     font-weight: 500;
     transition: color 0.3s;
+    align-items: center;
 }
 
 .nav-links a:hover {
     color: var(--color-tierra);
 }
 
+.btn-login-header {
+    background-color: var(--color-tierra);
+    color: var(--blanco) !important;
+    padding: 10px 25px;
+    border-radius: 100px;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 14px;
+    transition: all 0.3s;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-login-header:hover {
+    background-color: #725d52;
+    color: var(--blanco);
+    transform: scale(1.03);
+}
 
 /* --- HERO --- */
 .hero {
