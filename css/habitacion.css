@@ -112,6 +112,11 @@
     margin-bottom: 50px;
 }
 
+.contenedor-detalles.no-sidebar {
+    grid-template-columns: 1fr;
+    max-width: 900px;
+}
+
 .grid-caracteristicas li {
     display: flex;
     align-items: center;
@@ -182,12 +187,15 @@
 }
 
 .tarjeta-reserva .campo label {
-    font-size: 10px;
+    font-size: 12px;
     text-transform: uppercase;
-    font-weight: 700;
+    font-weight: 600;
     color: var(--color-tierra);
     margin-bottom: 8px;
     display: block;
+    letter-spacing: 2px;
+    cursor: pointer;
+    border-radius: 100px;
 }
 
 .tarjeta-reserva .sub-campo {

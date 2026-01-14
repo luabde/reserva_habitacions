@@ -30,7 +30,7 @@
     margin-bottom: 50px;
 }
 
-.seccion-texto{
+.seccion-texto {
     padding: 0px !important;
 }
 
@@ -124,6 +124,7 @@
     text-transform: uppercase;
     letter-spacing: 2px;
     cursor: pointer;
+    border-radius: 100px;
     transition: all 0.3s ease;
 }
 
